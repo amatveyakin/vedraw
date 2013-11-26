@@ -1,9 +1,14 @@
-#include "branches/commit.h"
-#include "colors/color_transform.h"
-#include "geometry/geometric_transform.h"
+#include <QApplication>
+
+#include "gui/main_window.h"
 
 
-int main()
+int main( int argc, char *argv[] )
 {
-    return 0;
+    QApplication app( argc, argv );
+
+    MainWindow mainWindow;
+    mainWindow.show();
+
+    return app.exec();
 }

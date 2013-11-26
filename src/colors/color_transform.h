@@ -1,8 +1,7 @@
 #ifndef COLOR_TRANSFORM_H
 #define COLOR_TRANSFORM_H
 
-
-#include <QtGui/QColor>
+#include <QColor>
 
 
 class ColorTransform
@@ -10,9 +9,9 @@ class ColorTransform
 public:
     virtual ~ColorTransform() { }
 
-    virtual QColor mapForward( QColor oldColor ) = 0;
-    virtual QColor mapBackward( QColor newColor ) = 0;
+    virtual bool supportsMapBackward() const = 0;
+    virtual QColor mapForward( QColor color ) const = 0;
+    virtual QColor mapBackward( QColor color ) const = 0;
 };
-
 
 #endif
