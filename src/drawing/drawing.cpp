@@ -1,5 +1,7 @@
 #include "drawing.h"
 
+#include "modifiers/modifier.h"
+
 
 Drawing::Drawing()
 {
@@ -13,4 +15,10 @@ Drawing::Drawing( Drawing::CreateNewFromFileCtor, const QString& fileName )
     if ( !m_isValid )
         return;
     m_currentImage = m_sourceImage;
+}
+
+
+bool Drawing::addModifier( std::unique_ptr< Modifier > modifier )
+{
+    return modifier->apply( m_currentImage );
 }

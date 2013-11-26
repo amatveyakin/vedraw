@@ -24,7 +24,7 @@ QString applicationVersionString()
   auto intVersion = applicationVersion();
   QStringList strVersion;
   for ( int x : intVersion )
-    strVersion << QString::number(x);
+    strVersion << QString::number( x );
   return strVersion.join( '.' );
 }
 

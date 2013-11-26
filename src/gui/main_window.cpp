@@ -8,13 +8,17 @@
 
 #include "drawing_view.h"
 #include "main_window.h"
+#include "modifiers_applier.h"
 
+#include "utils/cpp_extensions.h"
 #include "app/app_info.h"
 #include "drawing/drawing.h"
 
 
 MainWindow::MainWindow()
 {
+    resize( 800, 600 );
+
     QMenu* fileMenu = menuBar()->addMenu( tr( "&File" ) );
     m_openAction = new QAction( tr( "&Open..." ), this );
     m_exitAction = new QAction( tr( "&Exit..." ), this );
@@ -22,14 +26,17 @@ MainWindow::MainWindow()
     fileMenu->addSeparator();
     fileMenu->addAction( m_exitAction );
 
+    QMenu* filtersMenu = menuBar()->addMenu( tr( "Filte&rs" ) );
+    m_invertColorAction = new QAction( tr( "&Invert colors" ), this );
+    m_invertLightnessAction = new QAction( tr( "Invert lightness" ), this );
+    filtersMenu->addAction( m_invertColorAction );
+    filtersMenu->addAction( m_invertLightnessAction );
+
     QMenu* helpMenu = menuBar()->addMenu( tr( "&Help" ) );
     m_aboutAction = new QAction( tr( "&About..." ), this );
     helpMenu->addAction( m_aboutAction );
 
-    m_canvasWidget = 0;
-
-    QScopedPointer< Drawing > emptyDrawing( new Drawing );
-    setDrawing( emptyDrawing );
+    setDrawing( std::make_unique< Drawing >() );
 
     connect( m_openAction,    &QAction::triggered, this, &MainWindow::openFile );
     connect( m_exitAction,    &QAction::triggered, this, &MainWindow::close );
@@ -40,13 +47,16 @@ MainWindow::~MainWindow()
 {
 }
 
-void MainWindow::setDrawing( QScopedPointer< Drawing >& drawing )
+void MainWindow::setDrawing( std::unique_ptr< Drawing > drawing )
 {
-    delete m_canvasWidget;
-    m_drawing.reset( drawing.take() );
-    m_canvasWidget = new DrawingView( m_drawing.data() );
-    setCentralWidget( m_canvasWidget );
+    m_drawing.swap( drawing );
+    m_canvasWidget.reset( new DrawingView( m_drawing.get() ) );
+    m_modifiersApplier.reset( new ModifiersApplier( m_drawing.get(), m_canvasWidget.get() ) );
+    setCentralWidget( m_canvasWidget.get() );
     updateWindowTitle();
+
+    connect( m_invertColorAction,       &QAction::triggered, m_modifiersApplier.get(), &ModifiersApplier::invertColors );
+    connect( m_invertLightnessAction,   &QAction::triggered, m_modifiersApplier.get(), &ModifiersApplier::invertLightness );
 }
 
 
@@ -77,12 +87,12 @@ void MainWindow::openFile()
     QString fileName = QFileDialog::getOpenFileName( this, applicationName(), QString(), buildImageFormatsFilter( false ) );
     if ( fileName.isEmpty() )
         return;
-    QScopedPointer< Drawing > newDrawing( new Drawing( Drawing::CreateNewFromFileCtor(), fileName ) );
+    auto newDrawing = std::make_unique< Drawing >( Drawing::CreateNewFromFileCtor(), fileName );
     if ( !newDrawing->isValid() ) {
         QMessageBox::warning( this, makeWindowTitle( tr( "Error" ) ), tr( "Cannot open file \"%1\"" ).arg( fileName ) );
         return;
     }
-    setDrawing( newDrawing );
+    setDrawing( std::move( newDrawing ) );
 }
 
 void MainWindow::showAbout ()
@@ -99,4 +109,4 @@ void MainWindow::updateWindowTitle()
 }
 
 
-#include "main_window.moc"
+// #include "main_window.moc"  // TODO: What is this for?

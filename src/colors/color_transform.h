@@ -12,6 +12,10 @@ public:
     virtual bool supportsMapBackward() const = 0;
     virtual QColor mapForward( QColor color ) const = 0;
     virtual QColor mapBackward( QColor color ) const = 0;
+
+    // TODO: optimize
+    QRgb mapRgbForward( QRgb color ) const          { return mapForward( color ).rgba(); }
+    QRgb mapRgbBackward( QRgb color ) const         { return mapBackward( color ).rgba(); }
 };
 
 #endif

@@ -1,8 +1,12 @@
 #ifndef DRAWING_H
 #define DRAWING_H
 
+#include <memory>
+
 #include <QImage>
 #include <QString>
+
+class Modifier;
 
 
 class Drawing
@@ -21,6 +25,8 @@ public:
 
     QImage sourceImage() const                  { return m_sourceImage; }
     QImage currentImage() const                 { return m_currentImage; }
+
+    bool addModifier( std::unique_ptr<Modifier> modifier );
 
 //    bool saveToFile( const QString &fileName ) const;
 
