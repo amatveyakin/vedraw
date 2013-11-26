@@ -16,6 +16,7 @@ set( vedraw_srcs
     ${src_dir}/colors/color_components.cpp
     ${src_dir}/drawing/drawing.cpp
     ${src_dir}/geometry/projective_transform.cpp
+    ${src_dir}/gui/drawing_view.cpp
     ${src_dir}/gui/main_window.cpp
 )
 

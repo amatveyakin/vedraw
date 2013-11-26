@@ -14,7 +14,7 @@ public:
         QString fullName;
         QString shortName;
 
-        const QString &name( bool full ) const      { return full ? fullName : shortName; }
+        const QString& name( bool full ) const      { return full ? fullName : shortName; }
     };
 
     ColorComponentsPrivate();
