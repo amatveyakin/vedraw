@@ -7,9 +7,8 @@
 #include "utils/cpp_extensions.h"
 
 
-ModifiersApplier::ModifiersApplier( Drawing* drawing, DrawingView* canvasWidget )
+ModifiersApplier::ModifiersApplier( Drawing* drawing )
     : m_drawing( drawing )
-    , m_canvasWidget( canvasWidget )
 {
 }
 
@@ -21,12 +20,10 @@ void ModifiersApplier::invertColors()
 {
     auto filter = std::make_unique< ColorMapFilter >( std::make_unique< InverseColorTransform >() );
     m_drawing->addModifier( std::move( filter ) );
-    m_canvasWidget->update();
 }
 
 void ModifiersApplier::invertLightness()
 {
     auto filter = std::make_unique< ColorMapFilter >( std::make_unique< InverseLightnessColorTransform >() );
     m_drawing->addModifier( std::move( filter ) );
-    m_canvasWidget->update();
 }

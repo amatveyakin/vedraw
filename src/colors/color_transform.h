@@ -16,6 +16,8 @@ public:
     // TODO: optimize
     QRgb mapRgbForward( QRgb color ) const          { return mapForward( color ).rgba(); }
     QRgb mapRgbBackward( QRgb color ) const         { return mapBackward( color ).rgba(); }
+
+    virtual QString name() const = 0;
 };
 
 #endif

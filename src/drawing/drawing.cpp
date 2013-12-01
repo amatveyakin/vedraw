@@ -1,14 +1,16 @@
+#include "commit_history.h"
 #include "drawing.h"
 
+#include "utils/cpp_extensions.h"
 #include "modifiers/modifier.h"
 
 
 Drawing::Drawing()
 {
-    m_isValid = false;
 }
 
 Drawing::Drawing( Drawing::CreateNewFromFileCtor, const QString& fileName )
+    : m_changes( std::make_unique< CommitHistory >() )
 {
     m_sourceImageFileName = fileName;
     m_isValid = m_sourceImage.load( fileName );
@@ -17,8 +19,21 @@ Drawing::Drawing( Drawing::CreateNewFromFileCtor, const QString& fileName )
     m_currentImage = m_sourceImage;
 }
 
+Drawing::~Drawing()
+{
+}
+
 
 bool Drawing::addModifier( std::unique_ptr< Modifier > modifier )
 {
-    return modifier->apply( m_currentImage );
+    if ( !m_isValid )
+        return false;
+    QImage newImage = m_currentImage;
+    bool ok = modifier->apply( newImage );
+    if ( !ok )
+        return false;
+    m_currentImage = newImage;
+    m_changes->addCommit( std::move( modifier ) );
+    emit currentImageChanged();
+    return true;
 }

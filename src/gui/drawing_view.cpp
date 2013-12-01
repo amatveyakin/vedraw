@@ -8,6 +8,7 @@
 DrawingView::DrawingView( const Drawing* drawing )
     : m_drawing( drawing )
 {
+    connect( drawing, &Drawing::currentImageChanged, this, static_cast< void ( DrawingView::* )() >( &DrawingView::update ) );
 }
 
 void DrawingView::paintEvent( QPaintEvent* /*ev*/ )

@@ -15,12 +15,16 @@ set( vedraw_srcs
     ${src_dir}/colors/arithmetic_color_transform.cpp
     ${src_dir}/colors/color_components.cpp
     ${src_dir}/colors/simple_color_transforms.cpp
+    ${src_dir}/drawing/commit.cpp
+    ${src_dir}/drawing/commit_history.cpp
     ${src_dir}/drawing/drawing.cpp
     ${src_dir}/geometry/projective_transform.cpp
+    ${src_dir}/gui/commit_history_widget.cpp
     ${src_dir}/gui/drawing_view.cpp
     ${src_dir}/gui/main_window.cpp
     ${src_dir}/gui/modifiers_applier.cpp
     ${src_dir}/modifiers/filters/color_map_filter.cpp
+    ${src_dir}/utils/qt_extensions.cpp
 )
 
 include_directories( ${src_dir} )

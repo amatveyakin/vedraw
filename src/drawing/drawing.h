@@ -4,13 +4,15 @@
 #include <memory>
 
 #include <QImage>
-#include <QString>
 
+class CommitHistory;
 class Modifier;
 
 
-class Drawing
+class Drawing : public QObject
 {
+    Q_OBJECT
+
 public:
     struct LoadFromFileCtor {};
     struct CreateNewFromFileCtor {};
@@ -18,6 +20,7 @@ public:
     Drawing();
 //    drawing( LoadFromFileCtor, const QString &fileName );
     Drawing( CreateNewFromFileCtor, const QString &fileName );
+    ~Drawing();
 
     QString sourceImageFileName() const         { return m_sourceImageFileName; }
     QString drawingFileName() const             { return m_drawingFileName; }
@@ -26,17 +29,24 @@ public:
     QImage sourceImage() const                  { return m_sourceImage; }
     QImage currentImage() const                 { return m_currentImage; }
 
-    bool addModifier( std::unique_ptr<Modifier> modifier );
+    bool addModifier( std::unique_ptr< Modifier > modifier );
+
+    CommitHistory* commitHistory()              { return m_changes.get(); }
+    const CommitHistory* commitHistory() const  { return m_changes.get(); }
 
 //    bool saveToFile( const QString &fileName ) const;
+
+signals:
+    void currentImageChanged();
 
 private:
     QString m_sourceImageFileName;
     QString m_drawingFileName;
-    bool m_isValid;
+    bool m_isValid = false;
 
     QImage m_sourceImage;
     QImage m_currentImage;
+    std::unique_ptr< CommitHistory > m_changes;
     // TODO: Store commit history
 };
 

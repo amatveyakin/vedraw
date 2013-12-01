@@ -1,11 +1,14 @@
-#include <QFileDialog>
+#include <QAction>
+#include <QDockWidget>
 #include <QEvent>
+#include <QFileDialog>
 #include <QImageReader>
 #include <QImageWriter>
 #include <QMenuBar>
 #include <QMessageBox>
 #include <QSet>
 
+#include "commit_history_widget.h"
 #include "drawing_view.h"
 #include "main_window.h"
 #include "modifiers_applier.h"
@@ -18,41 +21,65 @@
 MainWindow::MainWindow()
 {
     resize( 800, 600 );
-
-    QMenu* fileMenu = menuBar()->addMenu( tr( "&File" ) );
-    m_openAction = new QAction( tr( "&Open..." ), this );
-    m_exitAction = new QAction( tr( "&Exit..." ), this );
-    fileMenu->addAction( m_openAction );
-    fileMenu->addSeparator();
-    fileMenu->addAction( m_exitAction );
-
-    QMenu* filtersMenu = menuBar()->addMenu( tr( "Filte&rs" ) );
-    m_invertColorAction = new QAction( tr( "&Invert colors" ), this );
-    m_invertLightnessAction = new QAction( tr( "Invert lightness" ), this );
-    filtersMenu->addAction( m_invertColorAction );
-    filtersMenu->addAction( m_invertLightnessAction );
-
-    QMenu* helpMenu = menuBar()->addMenu( tr( "&Help" ) );
-    m_aboutAction = new QAction( tr( "&About..." ), this );
-    helpMenu->addAction( m_aboutAction );
-
+    createActions();
+    createDockWidgets();
+    setUpMainMenu();
+    setUpUi();
     setDrawing( std::make_unique< Drawing >() );
-
-    connect( m_openAction,    &QAction::triggered, this, &MainWindow::openFile );
-    connect( m_exitAction,    &QAction::triggered, this, &MainWindow::close );
-    connect( m_aboutAction,   &QAction::triggered, this, &MainWindow::showAbout );
 }
 
 MainWindow::~MainWindow()
 {
 }
 
+void MainWindow::createActions()
+{
+    m_openAction = new QAction( tr( "&Open..." ), this );
+    connect( m_openAction, &QAction::triggered, this, &MainWindow::openFile );
+
+    m_exitAction = new QAction( tr( "&Exit..." ), this );
+    connect( m_exitAction, &QAction::triggered, this, &MainWindow::close );
+
+    m_invertColorAction = new QAction( tr( "&Invert colors" ), this );
+
+    m_invertLightnessAction = new QAction( tr( "Invert lightness" ), this );
+
+    m_aboutAction = new QAction( tr( "&About..." ), this );
+    connect( m_aboutAction, &QAction::triggered, this, &MainWindow::showAbout );
+}
+
+void MainWindow::createDockWidgets()
+{
+    m_commitHistoryWidget = new CommitHistoryWidget();
+}
+
+void MainWindow::setUpMainMenu()
+{
+    QMenu* fileMenu = menuBar()->addMenu( tr( "&File" ) );
+    fileMenu->addAction( m_openAction );
+    fileMenu->addSeparator();
+    fileMenu->addAction( m_exitAction );
+
+    QMenu* filtersMenu = menuBar()->addMenu( tr( "Filte&rs" ) );
+    filtersMenu->addAction( m_invertColorAction );
+    filtersMenu->addAction( m_invertLightnessAction );
+
+    QMenu* helpMenu = menuBar()->addMenu( tr( "&Help" ) );
+    helpMenu->addAction( m_aboutAction );
+}
+
+void MainWindow::setUpUi()
+{
+    addDockWidget( Qt::RightDockWidgetArea, m_commitHistoryWidget );
+}
+
 void MainWindow::setDrawing( std::unique_ptr< Drawing > drawing )
 {
-    m_drawing.swap( drawing );
+    m_drawing = std::move( drawing );
     m_canvasWidget.reset( new DrawingView( m_drawing.get() ) );
-    m_modifiersApplier.reset( new ModifiersApplier( m_drawing.get(), m_canvasWidget.get() ) );
+    m_modifiersApplier.reset( new ModifiersApplier( m_drawing.get() ) );
     setCentralWidget( m_canvasWidget.get() );
+    m_commitHistoryWidget->setModel( m_drawing->commitHistory() );
     updateWindowTitle();
 
     connect( m_invertColorAction,       &QAction::triggered, m_modifiersApplier.get(), &ModifiersApplier::invertColors );

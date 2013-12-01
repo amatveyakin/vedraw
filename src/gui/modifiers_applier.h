@@ -4,14 +4,13 @@
 #include <QObject>
 
 class Drawing;
-class DrawingView;
 
 
 class ModifiersApplier : public QObject
 {
     Q_OBJECT
 public:
-    ModifiersApplier( Drawing* drawing, DrawingView* canvasWidget );
+    ModifiersApplier( Drawing* drawing );
     ~ModifiersApplier();
 
 public slots:
@@ -19,8 +18,7 @@ public slots:
     void invertLightness();
 
 private:
-    Drawing* m_drawing;
-    DrawingView* m_canvasWidget;
+    Drawing* m_drawing = 0;
 };
 
 #endif // MODIFIERS_APPLIER_H
