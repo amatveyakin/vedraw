@@ -15,5 +15,5 @@ Commit::~Commit()
 
 QString Commit::description() const
 {
-    return m_modifier->name();
+    return m_modifier->name( true );
 }

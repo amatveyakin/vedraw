@@ -25,7 +25,7 @@ bool ColorMapFilter::apply( QImage& image ) const
     return true;
 }
 
-QString ColorMapFilter::name() const
+QString ColorMapFilter::name( bool translate ) const
 {
-    return trNoop( "ColorMap_%1" ).arg( m_transform->name() );
+    return args( trMaybe( "ColorMap_%1", translate ), m_transform->name() );
 }

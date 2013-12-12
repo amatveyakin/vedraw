@@ -18,7 +18,7 @@ public:
 
     virtual bool apply( QImage& image ) const override;
 
-    virtual QString name() const override;
+    QString name( bool translate ) const override;
 
 private:
     std::unique_ptr< ColorTransform > m_transform;

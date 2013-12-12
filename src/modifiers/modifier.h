@@ -16,7 +16,7 @@ public:
 
     virtual bool apply( QImage& image ) const = 0;
 
-    virtual QString name() const = 0;
+    virtual QString name( bool translate ) const = 0;
 
     //virtual QJsonObject saveToJson() const = 0;
 };

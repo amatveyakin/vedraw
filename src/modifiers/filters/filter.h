@@ -3,6 +3,7 @@
 
 #include "modifiers/modifier.h"
 
+
 class Filter : public Modifier
 {
 public:

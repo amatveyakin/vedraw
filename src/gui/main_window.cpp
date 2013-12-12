@@ -13,9 +13,10 @@
 #include "main_window.h"
 #include "modifiers_applier.h"
 
-#include "utils/cpp_extensions.h"
 #include "app/app_info.h"
 #include "drawing/drawing.h"
+#include "utils/cpp_extensions.h"
+#include "utils/qt_extensions.h"
 
 
 MainWindow::MainWindow()
@@ -82,6 +83,8 @@ void MainWindow::setDrawing( std::unique_ptr< Drawing > drawing )
     m_commitHistoryWidget->setModel( m_drawing->commitHistory() );
     updateWindowTitle();
 
+    connect( m_drawing.get(), &Drawing::modifiedFlagChanged, this, &MainWindow::setWindowModified );
+
     connect( m_invertColorAction,       &QAction::triggered, m_modifiersApplier.get(), &ModifiersApplier::invertColors );
     connect( m_invertLightnessAction,   &QAction::triggered, m_modifiersApplier.get(), &ModifiersApplier::invertLightness );
 }
@@ -99,14 +102,14 @@ QString MainWindow::buildImageFormatsFilter( bool write ) const
     QStringList singleFormatsList;
     for ( auto& lowerFormat : supportedFormatsList ) {
         QString upperFormat = lowerFormat.toUpper();
-        allFormatsString += QString( "*.%1 " ).arg( lowerFormat );
+        allFormatsString += args( "*.%1 ", lowerFormat );
         if ( upperFormat == "JPEG" )
             singleFormatsList += tr( "JPEG images (*.jpeg *.jpg)" );
         else if ( upperFormat != "JPG" )
-            singleFormatsList += tr( "%1 images (*.%2)" ).arg( upperFormat ).arg( lowerFormat );
+            singleFormatsList += args( tr( "%1 images (*.%2)" ), upperFormat, lowerFormat );
     }
     allFormatsString = allFormatsString.trimmed();
-    return tr( "All images (%1);;" ).arg( allFormatsString ) + singleFormatsList.join( ";;" );
+    return args( tr( "All images (%1);;" ), allFormatsString ) + singleFormatsList.join( ";;" );
 }
 
 void MainWindow::openFile()
@@ -116,7 +119,7 @@ void MainWindow::openFile()
         return;
     auto newDrawing = std::make_unique< Drawing >( Drawing::CreateNewFromFileCtor(), fileName );
     if ( !newDrawing->isValid() ) {
-        QMessageBox::warning( this, makeWindowTitle( tr( "Error" ) ), tr( "Cannot open file \"%1\"" ).arg( fileName ) );
+        QMessageBox::warning( this, makeWindowTitle( tr( "Error" ) ), args( tr( "Cannot open file \"%1\"" ), fileName ) );
         return;
     }
     setDrawing( std::move( newDrawing ) );
@@ -124,7 +127,7 @@ void MainWindow::openFile()
 
 void MainWindow::showAbout ()
 {
-    QMessageBox::about( this, windowTitle(), aboutText() );
+    QMessageBox::about( this, makeWindowTitle(), aboutText() );
 }
 
 void MainWindow::updateWindowTitle()
@@ -132,6 +135,8 @@ void MainWindow::updateWindowTitle()
     QString drawingName = m_drawing->drawingFileName();
     if ( drawingName.isEmpty() )
         drawingName = m_drawing->sourceImageFileName();
+    if ( !drawingName.isEmpty() )
+        drawingName = args( "%1[*]", drawingName );  // add `modified' flag
     setWindowTitle( makeWindowTitle( drawingName ) );
 }
 

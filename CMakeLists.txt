@@ -1,6 +1,7 @@
 cmake_minimum_required( VERSION 2.6 )
 project( Vedraw )
 find_package( Qt5Widgets REQUIRED )
+find_package( OpenCV REQUIRED )
 
 # Run moc when necessary:
 set( CMAKE_AUTOMOC ON )
@@ -12,6 +13,8 @@ set( src_dir ${project_root}/src )
 set( vedraw_srcs
     ${src_dir}/main.cpp
     ${src_dir}/app/app_info.cpp
+    ${src_dir}/basic/defs.cpp
+    ${src_dir}/basic/image.cpp
     ${src_dir}/colors/arithmetic_color_transform.cpp
     ${src_dir}/colors/color_components.cpp
     ${src_dir}/colors/simple_color_transforms.cpp
@@ -28,10 +31,13 @@ set( vedraw_srcs
 )
 
 include_directories( ${src_dir} )
+include_directories( ${OpenCV_INCLUDE_DIRS} )
 
 add_executable( vedraw  ${vedraw_srcs} )
-target_link_libraries( vedraw ${Qt5Widgets_LIBRARIES} )
+
 qt5_use_modules( vedraw Widgets )
+
+target_link_libraries( vedraw ${OpenCV_LIBS} )
 
 add_definitions("-std=c++11")
 

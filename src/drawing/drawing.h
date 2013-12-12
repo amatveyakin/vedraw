@@ -29,6 +29,7 @@ public:
     QImage sourceImage() const                  { return m_sourceImage; }
     QImage currentImage() const                 { return m_currentImage; }
 
+    bool isModified() const;
     bool addModifier( std::unique_ptr< Modifier > modifier );
 
     CommitHistory* commitHistory()              { return m_changes.get(); }
@@ -38,11 +39,13 @@ public:
 
 signals:
     void currentImageChanged();
+    void modifiedFlagChanged( bool isModified );
 
 private:
     QString m_sourceImageFileName;
     QString m_drawingFileName;
     bool m_isValid = false;
+    bool m_isModified = false;
 
     QImage m_sourceImage;
     QImage m_currentImage;

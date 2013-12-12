@@ -3,6 +3,8 @@
 
 #include "app_info.h"
 
+#include "utils/qt_extensions.h"
+
 
 static const QChar emDash( 0x2014 );
 static const QString paddedEmDash = ' ' + emDash + ' ';
@@ -35,15 +37,15 @@ QString makeWindowTitle( const QString& subtitle )
 
 QString makeWindowTitle( const QStringList& subtitleList )
 {
-    return (QStringList() << subtitleList << applicationName()).join( paddedEmDash );
+    return ( QStringList() << subtitleList << applicationName() ).join( paddedEmDash );
 }
 
 QString aboutText()
 {
-    return QObject::tr( "%1 %2.\n\n"
-                        "Author - Andrey Matveyakin, a.matveyakin@gmail.com\n\n"
-                        "The program is free.\n\n"
-                        "The program is distributed AS IS with NO WARRANTY OF ANY KIND.\n\n"
-                        "The program is written in C++/Qt."
-                        ).arg( applicationName(), applicationVersionString() );
+    return args( QObject::tr( "%1 %2.\n\n"
+                              "Author - Andrey Matveyakin, a.matveyakin@gmail.com\n\n"
+                              "The program is free.\n\n"
+                              "The program is distributed AS IS with NO WARRANTY OF ANY KIND.\n\n"
+                              "The program is written in C++/Qt." ),
+                 applicationName(), applicationVersionString() );
 }
