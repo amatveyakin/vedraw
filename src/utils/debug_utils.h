@@ -26,7 +26,7 @@ do {                                                \
 } while (0)
 
 
-#define ASSERT_RETURN_V(expression, return_value)   \
+#define ASSERT_RETURN_X(expression, return_value)   \
 do {                                                \
   if ( !( expression ) ) {                          \
     ERROR();                                        \
@@ -34,9 +34,9 @@ do {                                                \
   }                                                 \
 } while (0)
 
-#define ASSERT_RETURN(expression)     ASSERT_RETURN_V( expression, )
-#define ERROR_RETURN_V(return_value)  ASSERT_RETURN_V( false, return_value )
-#define ERROR_RETURN()                ASSERT_RETURN_V( false, )
+#define ASSERT_RETURN(expression)     ASSERT_RETURN_X( expression, )
+#define ERROR_RETURN_X(return_value)  ASSERT_RETURN_X( false, return_value )
+#define ERROR_RETURN()                ASSERT_RETURN_X( false, )
 
 // TODO: Add exception-based versions and use them
 

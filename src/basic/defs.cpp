@@ -13,5 +13,5 @@ int cvType( ImageFormat format, ColorDepth depth )
         case ImageFormat::RGB:    return p16bit ? CV_16UC3 : CV_8UC3;
         case ImageFormat::RGBA:   return p16bit ? CV_16UC4 : CV_8UC4;
     }
-    ERROR_RETURN_V( -1 );
+    ERROR_RETURN_X( -1 );
 }
