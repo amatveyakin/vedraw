@@ -2,6 +2,7 @@
 #define QT_EXTENSIONS_H
 
 #include <QString>
+#include <QTextStream>
 
 
 #define trNoop( text )  QString( QT_TR_NOOP( text ) )
@@ -9,22 +10,14 @@
 #define trMaybe( text, needTranslate )  ( needTranslate ? QObject::tr( text ) : trNoop( text ) )
 
 
+// TODO: Optimize: specialize for most common classes
 template< typename T >
 QString toQString( const T& v )
 {
-    return QString( v );
-}
-
-template<>
-inline QString toQString< int >( const int& v )
-{
-    return QString::number( v );
-}
-
-template<>
-inline QString toQString< double >( const double& v )
-{
-    return QString::number( v );
+    QString out;
+    QTextStream stream(&out);
+    stream << v;
+    return out;
 }
 
 template< typename... Values >
