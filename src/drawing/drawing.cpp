@@ -31,7 +31,6 @@ bool Drawing::isModified() const
 
 bool Drawing::addModifier( std::unique_ptr< Modifier > modifier )
 {
-    bool wasModified = m_isModified;
     if ( !m_isValid )
         return false;
     QImage newImage = m_currentImage;
@@ -41,8 +40,6 @@ bool Drawing::addModifier( std::unique_ptr< Modifier > modifier )
     m_currentImage = newImage;
     m_changes->addCommit( std::move( modifier ) );
     m_isModified = true;
-    emit currentImageChanged();
-    if ( !wasModified )
-        emit modifiedFlagChanged( true );
+    emit changed();
     return true;
 }

@@ -43,6 +43,7 @@ private:
     QString buildImageFormatsFilter( bool write ) const;
 
 private slots:
+    void onDrawingChanged();
     void openFile();
     void showAbout();
     void updateWindowTitle();

@@ -38,8 +38,7 @@ public:
 //    bool saveToFile( const QString &fileName ) const;
 
 signals:
-    void currentImageChanged();
-    void modifiedFlagChanged( bool isModified );
+    void changed();
 
 private:
     QString m_sourceImageFileName;

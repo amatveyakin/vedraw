@@ -83,7 +83,7 @@ void MainWindow::setDrawing( std::unique_ptr< Drawing > drawing )
     m_commitHistoryWidget->setModel( m_drawing->commitHistory() );
     updateWindowTitle();
 
-    connect( m_drawing.get(), &Drawing::modifiedFlagChanged, this, &MainWindow::setWindowModified );
+    connect( m_drawing.get(), &Drawing::changed, this, &MainWindow::onDrawingChanged );
 
     connect( m_invertColorAction,       &QAction::triggered, m_modifiersApplier.get(), &ModifiersApplier::invertColors );
     connect( m_invertLightnessAction,   &QAction::triggered, m_modifiersApplier.get(), &ModifiersApplier::invertLightness );
@@ -110,6 +110,11 @@ QString MainWindow::buildImageFormatsFilter( bool write ) const
     }
     allFormatsString = allFormatsString.trimmed();
     return args( tr( "All images (%1);;" ), allFormatsString ) + singleFormatsList.join( ";;" );
+}
+
+void MainWindow::onDrawingChanged()
+{
+    setWindowModified( m_drawing->isModified() );
 }
 
 void MainWindow::openFile()
