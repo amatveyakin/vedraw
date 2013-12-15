@@ -7,7 +7,7 @@
 
 int cvType( ImageFormat format, ColorDepth depth )
 {
-    bool p16bit = (depth == ColorDepth::IntDouble);
+    bool p16bit = (depth == ColorDepth::Int16);
     switch ( format ) {
         case ImageFormat::Gray:   return p16bit ? CV_16UC1 : CV_8UC1;
         case ImageFormat::RGB:    return p16bit ? CV_16UC3 : CV_8UC3;

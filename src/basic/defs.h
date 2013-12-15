@@ -19,12 +19,12 @@ enum class ImageFormat
 
 enum class ColorDepth
 {
-    IntSingle,
-    IntDouble,
+    Int8,
+    Int16,
     // IDEA:
-//     IntQuadro,
-//     RealSingle,
-//     RealDouble,
+//     Int32,
+//     Real32,
+//     Real64,
 };
 
 
