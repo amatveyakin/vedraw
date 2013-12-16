@@ -6,6 +6,7 @@
 #include <QImage>
 
 class CommitHistory;
+class Image;
 class Modifier;
 
 
@@ -24,15 +25,14 @@ public:
 
     QString sourceImageFileName() const         { return m_sourceImageFileName; }
     QString drawingFileName() const             { return m_drawingFileName; }
-    bool isValid() const                        { return m_isValid; }
+    bool isValid() const;
 
-    QImage sourceImage() const                  { return m_sourceImage; }
-    QImage currentImage() const                 { return m_currentImage; }
+    const Image* sourceImage() const            { return m_sourceImage.get(); }
+    const Image* currentImage() const           { return m_currentImage.get(); }
 
     bool isModified() const;
     bool addModifier( std::unique_ptr< Modifier > modifier );
 
-    CommitHistory* commitHistory()              { return m_changes.get(); }
     const CommitHistory* commitHistory() const  { return m_changes.get(); }
 
 //    bool saveToFile( const QString &fileName ) const;
@@ -46,10 +46,13 @@ private:
     bool m_isValid = false;
     bool m_isModified = false;
 
-    QImage m_sourceImage;
-    QImage m_currentImage;
+    std::unique_ptr< Image > m_sourceImage;
+    std::unique_ptr< Image > m_currentImage;
     std::unique_ptr< CommitHistory > m_changes;
     // TODO: Store commit history
+
+private:
+    void cloneCurrentImageFromSource();
 };
 
 #endif // DRAWING_H

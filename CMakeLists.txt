@@ -27,6 +27,7 @@ set( vedraw_srcs
     ${src_dir}/gui/main_window.cpp
     ${src_dir}/gui/modifiers_applier.cpp
     ${src_dir}/modifiers/filters/color_map_filter.cpp
+    ${src_dir}/utils/debug_utils.cpp
     ${src_dir}/utils/qt_extensions.cpp
 )
 

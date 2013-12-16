@@ -10,20 +10,25 @@ class QString;
 namespace cv { class Mat; }
 
 enum class ColorDepth;
-enum class ImageFormat;
+enum class ImageColors;
 
 
 class Image
 {
 public:
+    struct CopyCtor {};
+
     explicit Image();
-//     explicit Image( const QImage& qimage );
-    explicit Image( QSize size, ImageFormat format, ColorDepth depth );
-    explicit Image( int width, int height, ImageFormat format, ColorDepth depth );
+    explicit Image( CopyCtor, const Image& other );  // prevent accidental copying
+    explicit Image( const QImage& qImage );
+    explicit Image( QSize size, ImageColors format, ColorDepth depth );
+    explicit Image( int width, int height, ImageColors format, ColorDepth depth );
     explicit Image( const QString& filename );
     ~Image();
 
-    ImageFormat imageFormat() const;
+    bool isNull() const;
+    bool isValid() const;
+    ImageColors imageFormat() const;
     ColorDepth colorDepth() const;
     int width() const;
     int height() const;

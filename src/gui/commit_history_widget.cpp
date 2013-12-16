@@ -19,7 +19,7 @@ CommitHistoryWidget::~CommitHistoryWidget()
 {
 }
 
-void CommitHistoryWidget::setModel( CommitHistory* commitHistory )
+void CommitHistoryWidget::setModel( const CommitHistory* commitHistory )
 {
     if ( m_commitHistory )
         disconnect( m_commitHistory, 0, this, 0 );
@@ -27,6 +27,11 @@ void CommitHistoryWidget::setModel( CommitHistory* commitHistory )
     if ( m_commitHistory )
         connect( m_commitHistory.data(), &CommitHistory::changed, this, &CommitHistoryWidget::updateData );
     updateData();
+}
+
+const CommitHistory* CommitHistoryWidget::model() const
+{
+    return m_commitHistory.data();
 }
 
 void CommitHistoryWidget::updateData()

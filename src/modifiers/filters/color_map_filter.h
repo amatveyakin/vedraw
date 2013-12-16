@@ -16,7 +16,7 @@ public:
 
     virtual bool affectsColors() const override     { return true; }
 
-    virtual bool apply( QImage& image ) const override;
+    virtual bool apply( Image& image ) const override;
 
     QString name( bool translate ) const override;
 

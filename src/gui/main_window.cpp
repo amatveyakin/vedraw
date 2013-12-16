@@ -92,6 +92,7 @@ void MainWindow::setDrawing( std::unique_ptr< Drawing > drawing )
 
 QString MainWindow::buildImageFormatsFilter( bool write ) const
 {
+    // TODO: Get OpenCV formats
     QList< QByteArray > supportedFormatsRawList = write ? QImageWriter::supportedImageFormats() : QImageReader::supportedImageFormats();
     QSet< QString > supportedFormatsSet;
     for ( auto& format : supportedFormatsRawList )

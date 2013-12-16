@@ -1,9 +1,10 @@
 #ifndef MODIFIER_H
 #define MODIFIER_H
 
-class QImage;
 class QString;
 class QJsonObject;
+
+class Image;
 
 
 class Modifier
@@ -14,7 +15,7 @@ public:
     virtual bool affectsColors() const = 0;
     virtual bool affectsGeometry() const = 0;
 
-    virtual bool apply( QImage& image ) const = 0;
+    virtual bool apply( Image& image ) const = 0;
 
     virtual QString name( bool translate ) const = 0;
 

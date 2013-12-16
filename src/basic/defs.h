@@ -10,7 +10,7 @@ enum class ColorSpace
     // IDEA: What about the other formats (XYZ, YCrCb, Luv, CMYK, ...)
 };
 
-enum class ImageFormat
+enum class ImageColors
 {
     Gray,
     RGB,
@@ -28,6 +28,13 @@ enum class ColorDepth
 };
 
 
-int cvType( ImageFormat format, ColorDepth depth );
+int toCvDepth( ColorDepth depth );
+ColorDepth formCvDepth( int depth );
+
+int channelsFromColors( ImageColors colorFormat );
+ImageColors channelsToColors( int channels );
+
+int toCvType( ImageColors colorFormat, ColorDepth depth );
+void fromCvType( int cvType, ImageColors& colorFormat, ColorDepth& depth );
 
 #endif // DEFS_H

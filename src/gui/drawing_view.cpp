@@ -1,8 +1,9 @@
 #include <QPainter>
 
-#include "drawing/drawing.h"
-
 #include "drawing_view.h"
+
+#include "basic/image.h"
+#include "drawing/drawing.h"
 
 
 DrawingView::DrawingView( const Drawing* drawing )
@@ -14,5 +15,5 @@ DrawingView::DrawingView( const Drawing* drawing )
 void DrawingView::paintEvent( QPaintEvent* /*ev*/ )
 {
     QPainter painter( this );
-    painter.drawImage( 0, 0, m_drawing->currentImage() );
+    painter.drawImage( 0, 0, m_drawing->currentImage()->toQImage() );
 }
