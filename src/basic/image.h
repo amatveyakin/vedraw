@@ -3,14 +3,13 @@
 
 #include <memory>
 
+#include "defs.h"
+
 class QImage;
 class QSize;
 class QString;
 
 namespace cv { class Mat; }
-
-enum class ColorDepth;
-enum class ImageColors;
 
 
 class Image
@@ -30,6 +29,7 @@ public:
     bool isValid() const;
     ImageColors imageFormat() const;
     ColorDepth colorDepth() const;
+    ColorSpace colorSpace() const;
     int width() const;
     int height() const;
     QSize size() const;
@@ -42,6 +42,7 @@ public:
 
 private:
     std::unique_ptr< cv::Mat > m_mat;
+    ColorSpace m_colorSpace = ColorSpace::None;
 };
 
 #endif // IMAGE_H

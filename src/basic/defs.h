@@ -3,6 +3,7 @@
 
 enum class ColorSpace
 {
+    None,  // for grayscale
     RGB,
     HSV,
     HSL,

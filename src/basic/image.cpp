@@ -30,6 +30,7 @@ Image::Image( const QImage& origQImage )
     cv::Mat rgbMat( qImage.height(), qImage.width(), CV_8UC4, qImage.bits(), qImage.bytesPerLine() );
     m_mat = std::make_unique< cv::Mat >();
     cv::cvtColor( rgbMat, *m_mat, CV_RGBA2BGRA );
+    m_colorSpace = ColorSpace::RGB;
 }
 
 Image::Image( QSize size_, ImageColors format, ColorDepth depth )
@@ -71,6 +72,11 @@ ColorDepth Image::colorDepth() const
     return formCvDepth( m_mat->depth() );
 }
 
+ColorSpace Image::colorSpace() const
+{
+    return m_colorSpace;
+}
+
 int Image::width() const
 {
     return m_mat->cols;
@@ -95,7 +101,7 @@ QImage Image::toQImage() const
     // The stupidest implementation: always convert to a fixed format
     // TODO: choose closest format
     cv::Mat rgbMat;
-    
+
 //     cv::cvtColor( *m_mat, rgbMat, CV_BGRA2RGBA );
 //     QImage result1( rgbMat.data, rgbMat.cols, rgbMat.rows, rgbMat.step, QImage::Format_ARGB32 );
     cv::cvtColor( *m_mat, rgbMat, CV_BGRA2RGB );
