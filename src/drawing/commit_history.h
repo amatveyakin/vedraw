@@ -1,5 +1,4 @@
-#ifndef COMMIT_HISTORY_H
-#define COMMIT_HISTORY_H
+#pragma once
 
 #include <memory>
 #include <vector>
@@ -32,5 +31,3 @@ private:
     // TODO: It should be a tree actually
     std::vector< std::unique_ptr< Commit > > m_commits;
 };
-
-#endif // COMMIT_HISTORY_H

@@ -1,5 +1,4 @@
-#ifndef ARITHMETIC_COLOR_TRANSFORM_H
-#define ARITHMETIC_COLOR_TRANSFORM_H
+#pragma once
 
 #include "color_transform.h"
 
@@ -17,5 +16,3 @@ public:
 private:
 //     QColor::Spec m_colorSpec;
 };
-
-#endif // ARITHMETIC_COLOR_TRANSFORM_H

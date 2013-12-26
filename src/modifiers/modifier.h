@@ -1,5 +1,4 @@
-#ifndef MODIFIER_H
-#define MODIFIER_H
+#pragma once
 
 class QString;
 class QJsonObject;
@@ -21,5 +20,3 @@ public:
 
     //virtual QJsonObject saveToJson() const = 0;
 };
-
-#endif

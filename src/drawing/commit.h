@@ -1,5 +1,4 @@
-#ifndef COMMIT_H
-#define COMMIT_H
+#pragma once
 
 #include <memory>
 
@@ -21,5 +20,3 @@ private:
     std::unique_ptr< const Modifier > m_modifier;
     QDateTime m_commitTime;
 };
-
-#endif // COMMIT_H

@@ -1,5 +1,4 @@
-#ifndef PROJECTIVE_TRANSFORM_H
-#define PROJECTIVE_TRANSFORM_H
+#pragma once
 
 #include <QTransform>
 
@@ -27,5 +26,3 @@ protected:
     QTransform m_forwadTransform;
     QTransform m_backwadTransform;
 };
-
-#endif

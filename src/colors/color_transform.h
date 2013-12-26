@@ -1,5 +1,4 @@
-#ifndef COLOR_TRANSFORM_H
-#define COLOR_TRANSFORM_H
+#pragma once
 
 #include <QColor>
 
@@ -19,5 +18,3 @@ public:
 
     virtual QString name() const = 0;
 };
-
-#endif

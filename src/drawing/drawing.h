@@ -1,5 +1,4 @@
-#ifndef DRAWING_H
-#define DRAWING_H
+#pragma once
 
 #include <memory>
 
@@ -54,5 +53,3 @@ private:
 private:
     void cloneCurrentImageFromSource();
 };
-
-#endif // DRAWING_H

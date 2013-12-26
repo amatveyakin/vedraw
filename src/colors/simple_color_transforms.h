@@ -1,5 +1,4 @@
-#ifndef SIMPLE_COLOR_TRANSFORMS_H
-#define SIMPLE_COLOR_TRANSFORMS_H
+#pragma once
 
 #include "color_transform.h"
 
@@ -22,5 +21,3 @@ public:
     virtual QColor mapBackward( QColor color ) const override   { return mapForward( color ); }
     virtual QString name() const override;
 };
-
-#endif // SIMPLE_COLOR_TRANSFORMS_H

@@ -1,5 +1,4 @@
-#ifndef CPP_EXTENSIONS_H
-#define CPP_EXTENSIONS_H
+#pragma once
 
 #include <memory>
 
@@ -14,5 +13,3 @@ std::unique_ptr< T > make_unique( Args&&... args )
 }
 }
 #endif // __cplusplus <= 201103L
-
-#endif // CPP_EXTENSIONS_H

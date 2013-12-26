@@ -1,5 +1,4 @@
-#ifndef Q_CONST_POINTER_H
-#define Q_CONST_POINTER_H
+#pragma once
 
 #include <QPointerBase>
 
@@ -133,5 +132,3 @@ QT_END_NAMESPACE
 QT_END_HEADER
 
 #endif // QT_NO_QOBJECT
-
-#endif // Q_CONST_POINTER_H

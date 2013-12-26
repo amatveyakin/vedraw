@@ -1,5 +1,4 @@
-#ifndef MODIFIERS_APPLIER_H
-#define MODIFIERS_APPLIER_H
+#pragma once
 
 #include <QObject>
 
@@ -20,5 +19,3 @@ public slots:
 private:
     Drawing* m_drawing = 0;
 };
-
-#endif // MODIFIERS_APPLIER_H

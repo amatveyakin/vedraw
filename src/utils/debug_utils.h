@@ -1,5 +1,4 @@
-#ifndef DEBUG_UTILS_H
-#define DEBUG_UTILS_H
+#pragma once
 
 #include <exception>
 #include <string>
@@ -61,8 +60,3 @@ do {                                                \
 #define ERROR_THROW( exception )        ASSERT_THROW( false, exception )
 #define ASSERT_THROW_STD( expression )  ASSERT_THROW( expression, standard_exception( __FILE__, __LINE__ ) )
 #define ERROR_THROW_STD()               ASSERT_THROW( false, standard_exception( __FILE__, __LINE__ ) )
-
-// TODO: Add exception-based versions and use them
-
-
-#endif // DEBUG_UTILS_H

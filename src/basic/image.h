@@ -1,5 +1,4 @@
-#ifndef IMAGE_H
-#define IMAGE_H
+#pragma once
 
 #include <memory>
 
@@ -44,5 +43,3 @@ private:
     std::unique_ptr< cv::Mat > m_mat;
     ColorSpace m_colorSpace = ColorSpace::None;
 };
-
-#endif // IMAGE_H

@@ -1,5 +1,4 @@
-#ifndef COMMIT_HISTORY_WIDGET_H
-#define COMMIT_HISTORY_WIDGET_H
+#pragma once
 
 #include <QDockWidget>
 #include <QPointer>
@@ -30,5 +29,3 @@ private:
     QStandardItemModel* m_qmodel = 0;
     QListView* m_view = 0;
 };
-
-#endif // COMMIT_HISTORY_WIDGET_H

@@ -1,5 +1,4 @@
-#ifndef COLOR_COMPONENTS_H
-#define COLOR_COMPONENTS_H
+#pragma once
 
 #include <QColor>
 
@@ -40,5 +39,3 @@ qreal colorComponentF( ColorComponent component, QColor color );
 qreal colorComponentF( const QString& componentName, QColor color );
 
 QColor colorByComponentsF( QColor::Spec spec, const QList< qreal >& components );
-
-#endif // COLOR_COMPONENTS_H

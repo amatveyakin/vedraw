@@ -1,5 +1,4 @@
-#ifndef QT_EXTENSIONS_H
-#define QT_EXTENSIONS_H
+#pragma once
 
 #include <QString>
 #include <QTextStream>
@@ -28,5 +27,3 @@ QString args( const QString& format, Values... values )
 {
     return format.arg( toQString( values )... );
 }
-
-#endif // QT_EXTENSIONS_H

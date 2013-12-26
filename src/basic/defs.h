@@ -1,5 +1,4 @@
-#ifndef DEFS_H
-#define DEFS_H
+#pragma once
 
 enum class ColorSpace
 {
@@ -34,5 +33,3 @@ ImageColors channelsToColors( int channels );
 
 int toCvType( ImageColors colorFormat, ColorDepth depth );
 void fromCvType( int cvType, ImageColors& colorFormat, ColorDepth& depth );
-
-#endif // DEFS_H

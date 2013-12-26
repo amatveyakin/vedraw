@@ -1,5 +1,4 @@
-#ifndef COLOR_MAP_FILTER_H
-#define COLOR_MAP_FILTER_H
+#pragma once
 
 #include <memory>
 
@@ -23,5 +22,3 @@ public:
 private:
     std::unique_ptr< ColorTransform > m_transform;
 };
-
-#endif // COLOR_MAP_FILTER_H

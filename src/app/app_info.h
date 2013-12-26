@@ -1,5 +1,4 @@
-#ifndef APP_INFO_H
-#define APP_INFO_H
+#pragma once
 
 #include <QString>
 
@@ -10,5 +9,3 @@ QString applicationVersionString();
 QString makeWindowTitle( const QString& subtitle = QString() );
 QString makeWindowTitle( const QStringList& subtitleList );
 QString aboutText();
-
-#endif // APP_INFO_H

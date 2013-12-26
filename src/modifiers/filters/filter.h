@@ -1,5 +1,4 @@
-#ifndef FILTER_H
-#define FILTER_H
+#pragma once
 
 #include "modifiers/modifier.h"
 
@@ -10,5 +9,3 @@ public:
     virtual bool affectsColors() const override = 0;
     virtual bool affectsGeometry() const override final     { return false; }
 };
-
-#endif // FILTER_H

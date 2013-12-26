@@ -1,5 +1,4 @@
-#ifndef MAIN_WINDOW_H
-#define MAIN_WINDOW_H
+#pragma once
 
 #include <memory>
 
@@ -48,5 +47,3 @@ private slots:
     void showAbout();
     void updateWindowTitle();
 };
-
-#endif // MAIN_WINDOW_H

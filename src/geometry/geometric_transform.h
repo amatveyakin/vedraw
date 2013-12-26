@@ -1,6 +1,4 @@
-#ifndef GEOMETRIC_TRANSFORM_H
-#define GEOMETRIC_TRANSFORM_H
-
+#pragma once
 
 #include <QtCore/QPointF>
 
@@ -13,6 +11,3 @@ public:
     virtual QPointF mapForward( QPointF coordinates ) const = 0;
     virtual QPointF mapBackward( QPointF coordinates ) const = 0;
 };
-
-
-#endif
