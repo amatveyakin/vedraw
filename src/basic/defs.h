@@ -21,10 +21,7 @@ enum class ColorDepth
 {
     Int8,
     Int16,
-    // IDEA:
-//     Int32,
-//     Real32,
-//     Real64,
+    // IDEA: Int32, Real32, Real64
 };
 
 
