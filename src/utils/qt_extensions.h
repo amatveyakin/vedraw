@@ -1,5 +1,7 @@
 #pragma once
 
+#include <exception>
+
 #include <QString>
 #include <QTextStream>
 
@@ -23,7 +25,13 @@ QString toQString( const T& v )
 }
 
 template< typename... Values >
-QString args( const QString& format, Values... values )
+QString args( const QString& format, Values&&... values )
 {
-    return format.arg( toQString( values )... );
+    return format.arg( toQString( std::forward< Values >( values ) )... );
+}
+
+template< typename Exception, typename... Values >
+Exception qMakeException( const QString& format, Values&&... values )
+{
+    return Exception( args( format, std::forward< Values >( values )... ).toUtf8().constData() );
 }

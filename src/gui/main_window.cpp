@@ -86,7 +86,7 @@ void MainWindow::setDrawing( std::unique_ptr< Drawing > drawing )
     connect( m_drawing.get(), &Drawing::changed, this, &MainWindow::onDrawingChanged );
 
     connect( m_invertColorAction,       &QAction::triggered, m_modifiersApplier.get(), &ModifiersApplier::invertColors );
-    connect( m_invertLightnessAction,   &QAction::triggered, m_modifiersApplier.get(), &ModifiersApplier::invertLightness );
+//     connect( m_invertLightnessAction,   &QAction::triggered, m_modifiersApplier.get(), &ModifiersApplier::invertLightness );
 }
 
 

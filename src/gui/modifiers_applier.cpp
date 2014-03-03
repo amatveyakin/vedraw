@@ -18,12 +18,12 @@ ModifiersApplier::~ModifiersApplier()
 
 void ModifiersApplier::invertColors()
 {
-    auto filter = std::make_unique< ColorMapFilter >( std::make_unique< InverseColorTransform >() );
+    auto filter = std::make_unique< ColorMapFilter< InverseColorTransform > >( InverseColorTransform() );
     m_drawing->addModifier( std::move( filter ) );
 }
 
-void ModifiersApplier::invertLightness()
-{
-    auto filter = std::make_unique< ColorMapFilter >( std::make_unique< InverseLightnessColorTransform >() );
-    m_drawing->addModifier( std::move( filter ) );
-}
+// void ModifiersApplier::invertLightness()
+// {
+//     auto filter = std::make_unique< ColorMapFilter< InverseLightnessColorTransform > >( InverseLightnessColorTransform() );
+//     m_drawing->addModifier( std::move( filter ) );
+// }

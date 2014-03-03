@@ -23,34 +23,14 @@ ColorDepth formCvDepth( int depth )
     ERROR_THROW_STD();
 }
 
-int channelsFromColors( ImageColors colorFormat )
+
+int toCvType( int nChannels, ColorDepth depth )
 {
-    switch ( colorFormat ) {
-        case ImageColors::Gray:     return 1;
-        case ImageColors::RGB:      return 3;
-        case ImageColors::RGBA:     return 4;
-    }
-    ERROR_THROW_STD();
+    return CV_MAKETYPE( toCvDepth( depth ), nChannels );
 }
 
-ImageColors channelsToColors( int channels )
+void fromCvType( int cvType, int& nChannels, ColorDepth& depth )
 {
-    switch ( channels ) {
-        case 1:                     return ImageColors::Gray;
-        case 3:                     return ImageColors::RGB;
-        case 4:                     return ImageColors::RGBA;
-    }
-    ERROR_THROW_STD();
-}
-
-
-int toCvType( ImageColors colorFormat, ColorDepth depth )
-{
-    return CV_MAKETYPE( toCvDepth( depth ), channelsFromColors( colorFormat ) );
-}
-
-void fromCvType( int cvType, ImageColors& colorFormat, ColorDepth& depth )
-{
-    colorFormat = channelsToColors( CV_MAT_CN( cvType ) );
+    nChannels = CV_MAT_CN( cvType );
     depth = formCvDepth( CV_MAT_TYPE( cvType ) );
 }

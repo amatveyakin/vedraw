@@ -14,7 +14,7 @@ public:
 
 public slots:
     void invertColors();
-    void invertLightness();
+//     void invertLightness();
 
 private:
     Drawing* m_drawing = 0;

@@ -6,6 +6,8 @@
 
 #include "basic/defs.h"
 #include "utils/cpp_extensions.h"
+#include "utils/debug_utils.h"
+#include "utils/opencv_type_traits.h"
 
 
 Image::Image()
@@ -16,6 +18,8 @@ Image::Image()
 Image::Image( CopyCtor, const Image& other )
 {
     m_mat = std::make_unique< cv::Mat >( other.m_mat->clone() );
+    m_colorSpace = other.m_colorSpace;
+    m_hasAlpha = other.m_hasAlpha;
 }
 
 Image::Image( const QImage& origQImage )
@@ -31,16 +35,19 @@ Image::Image( const QImage& origQImage )
     m_mat = std::make_unique< cv::Mat >();
     cv::cvtColor( rgbMat, *m_mat, CV_RGBA2BGRA );
     m_colorSpace = ColorSpace::RGB;
+    m_hasAlpha = false;
 }
 
-Image::Image( QSize size_, ImageColors format, ColorDepth depth )
-    : Image( size_.width(), size_.height(), format, depth )
+Image::Image( QSize size_, ColorSpace space, bool alpha, ColorDepth depth )
+    : Image( size_.width(), size_.height(), space, alpha, depth )
 {
 }
 
-Image::Image( int width_, int height_, ImageColors format, ColorDepth depth )
+Image::Image( int width_, int height_, ColorSpace space, bool alpha, ColorDepth depth )
 {
-    m_mat = std::make_unique< cv::Mat >( height_, width_, toCvType( format, depth ) );
+    m_mat = std::make_unique< cv::Mat >( height_, width_, toCvType( colorSpaceChannels( space, alpha ), depth ) );
+    m_colorSpace = space;
+    m_hasAlpha = alpha;
 }
 
 Image::Image( const QString& filename )
@@ -62,9 +69,11 @@ bool Image::isValid() const
     return !isNull();
 }
 
-ImageColors Image::imageFormat() const
+int Image::channelsCount() const
 {
-    return channelsToColors( m_mat->channels() );
+    int nChannels = m_mat->channels();
+    ASSERT_THROW_STD( nChannels == colorSpaceChannels( colorSpace(), hasAlpha() ) );
+    return nChannels;
 }
 
 ColorDepth Image::colorDepth() const
@@ -75,6 +84,21 @@ ColorDepth Image::colorDepth() const
 ColorSpace Image::colorSpace() const
 {
     return m_colorSpace;
+}
+
+bool Image::isColorful() const
+{
+    return !isGray();
+}
+
+bool Image::isGray() const
+{
+    return colorSpace() == ColorSpace::Gray;
+}
+
+bool Image::hasAlpha() const
+{
+    return m_hasAlpha;
 }
 
 int Image::width() const

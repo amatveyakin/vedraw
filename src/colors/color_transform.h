@@ -1,20 +1,35 @@
 #pragma once
 
-#include <QColor>
+#include <exception>
+
+#include <QString>
+
+#include "color.h"
+
+#include "utils/debug_utils.h"
+#include "utils/qt_extensions.h"
 
 
+template< typename ThisTransformT >
 class ColorTransform
 {
 public:
-    virtual ~ColorTransform() { }
+    constexpr static bool supportsMapBackward()     { return thisTransform()->supportsMapBackwardImpl; }
+    constexpr static bool supportsColorful()        { return thisTransform()->supportsColorfulImpl; }
+    constexpr static bool supportsGray()            { return thisTransform()->supportsGrayImpl; }
 
-    virtual bool supportsMapBackward() const = 0;
-    virtual QColor mapForward( QColor color ) const = 0;
-    virtual QColor mapBackward( QColor color ) const = 0;
+//     template< ColorDepth depth > ColorGray< depth > mapForward( ColorGray< depth >  color ) const   { return thisTransform()->mapForwardImpl( color ); }  // TODO
+    template< ColorDepth depth > ColorRGB< depth >  mapForward( ColorRGB< depth >   color ) const   { return thisTransform()->mapForwardImpl( color ); }
+//     template< ColorDepth depth > ColorGray< depth > mapBackward( ColorGray< depth > color ) const   { return thisTransform()->mapBackwardImpl( color ); }
+    template< ColorDepth depth > ColorRGB< depth >  mapBackward( ColorRGB< depth >  color ) const   { return thisTransform()->mapBackwardImpl( color ); }
 
-    // TODO: optimize
-    QRgb mapRgbForward( QRgb color ) const          { return mapForward( color ).rgba(); }
-    QRgb mapRgbBackward( QRgb color ) const         { return mapBackward( color ).rgba(); }
+    QString name() const                            { return thisTransform()->nameImpl(); }
 
-    virtual QString name() const = 0;
+protected:
+    void illegalMapBackwardCall() const             { ERROR_THROW( qMakeException< std::logic_error >( "The '%1' color transform cannot map backwards", name() ) ); }
+    void illegalMapColorful() const                 { ERROR_THROW( qMakeException< std::logic_error >( "The '%1' color transform supports only gray colos", name() ) ); }
+    void illegalMapGray() const                     { ERROR_THROW( qMakeException< std::logic_error >( "The '%1' color transform doesn't support gray colors", name() ) ); }
+
+private:
+    const ThisTransformT* thisTransform() const     { return static_cast< const ThisTransformT* >( this ); }
 };

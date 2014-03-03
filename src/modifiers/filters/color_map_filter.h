@@ -1,24 +1,24 @@
 #pragma once
 
-#include <memory>
-
 #include "filter.h"
 
-class ColorTransform;
+#include "colors/color_transform.h"
 
 
+template< typename ThisTransformT >
 class ColorMapFilter : public Filter
 {
 public:
-    ColorMapFilter( std::unique_ptr< ColorTransform > transform );
+    ColorMapFilter( const ThisTransformT& transform );
     ~ColorMapFilter();
 
-    virtual bool affectsColors() const override     { return true; }
+    virtual bool affectsColors() const override         { return true; }
 
     virtual bool apply( Image& image ) const override;
 
     QString name( bool translate ) const override;
+    ColorTransform< ThisTransformT > transform() const  { return m_transform; }
 
 private:
-    std::unique_ptr< ColorTransform > m_transform;
+    ThisTransformT m_transform;
 };

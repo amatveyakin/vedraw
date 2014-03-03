@@ -2,19 +2,12 @@
 
 enum class ColorSpace
 {
-    None,  // for grayscale
+    Gray,
     RGB,
     HSV,
     HSL,
     Lab,
     // IDEA: What about the other formats (XYZ, YCrCb, Luv, CMYK, ...)
-};
-
-enum class ImageColors
-{
-    Gray,
-    RGB,
-    RGBA,
 };
 
 enum class ColorDepth
@@ -28,8 +21,10 @@ enum class ColorDepth
 int toCvDepth( ColorDepth depth );
 ColorDepth formCvDepth( int depth );
 
-int channelsFromColors( ImageColors colorFormat );
-ImageColors channelsToColors( int channels );
+int toCvType( int nChannels, ColorDepth depth );
+void fromCvType( int cvType, int& nChannels, ColorDepth& depth );
 
-int toCvType( ImageColors colorFormat, ColorDepth depth );
-void fromCvType( int cvType, ImageColors& colorFormat, ColorDepth& depth );
+constexpr int colorSpaceChannels( ColorSpace space, bool hasAlpha = false )
+{
+    return ( space == ColorSpace::Gray ? 1 : 3 ) + hasAlpha;
+}
