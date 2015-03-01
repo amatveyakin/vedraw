@@ -25,7 +25,7 @@ public slots:
     void updateData();
 
 private:
-    QConstPointer< CommitHistory > m_commitHistory;
+    QPointer< const CommitHistory > m_commitHistory;
     QStandardItemModel* m_qmodel = 0;
     QListView* m_view = 0;
 };

@@ -5,9 +5,6 @@
 #include <QString>
 #include <QTextStream>
 
-// TODO: Isn't there really a way to create a const QPointer?
-#include "q_const_pointer.h"
-
 
 #define trNoop( text )  QString( QT_TR_NOOP( text ) )
 
