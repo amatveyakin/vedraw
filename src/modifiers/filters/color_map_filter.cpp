@@ -5,18 +5,20 @@
 #include "basic/image.h"
 #include "colors/color_transform.h"
 #include "colors/simple_color_transforms.h"
+#include "utils/cartesian_call.h"
 #include "utils/debug_utils.h"
 #include "utils/opencv_type_traits.h"
 #include "utils/qt_extensions.h"
 
 
-template< typename ThisTransformT, bool isColorful, bool hasAlpha, ColorDepth depth > static
-bool colorMapImplementation( ColorTransform< ThisTransformT > transform, cv::Mat& mat )
+template< typename ThisTransformT, bool isColorful, bool hasAlpha, ColorDepth depth >
+static bool colorMapImplementation( ColorTransform< ThisTransformT > transform, cv::Mat& mat )
 {
     constexpr int nChannels = colorSpaceChannels( isColorful ? ColorSpace::RGB : ColorSpace::Gray, hasAlpha );
     ASSERT_THROW_STD( mat.depth() == toCvDepth( depth ) );
     ASSERT_THROW_STD( mat.channels() == nChannels );
 
+    // TODO: Delete
 //     switch(channels)
 //     {
 //     case 1:
@@ -58,10 +60,13 @@ ColorMapFilter< ThisTransformT >::~ColorMapFilter()
 template< typename ThisTransformT >
 bool ColorMapFilter< ThisTransformT >::apply( Image& image ) const
 {
-    // TODO FIXME
-    ASSERT_THROW_STD( image.colorSpace() == ColorSpace::RGB || image.colorSpace() == ColorSpace::Gray );  // TODO: Support all color spaces
-//     colorMapImplementation< ThisTransformT, image.isColorful(), image.hasAlpha(), image.colorDepth() >( transform(), image.cvMat() ); // TODO
-    return colorMapImplementation< ThisTransformT, true, false, ColorDepth::Int8 >( transform(), image.cvMat() ); // TODO FIXME
+    return CARTESIAN_CALL( colorMapImplementation,
+                           ( ThisTransformT ),
+                           ( bool )( image.isColorful() ),
+                           ( bool )( image.hasAlpha() ),
+                           ( ColorDepth )( image.colorDepth() )
+                         )( transform(),
+                            image.cvMat());
 }
 
 template< typename ThisTransformT >

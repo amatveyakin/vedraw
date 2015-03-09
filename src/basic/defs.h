@@ -1,5 +1,8 @@
 #pragma once
 
+#include "utils/cartesian_call.h"
+
+
 enum class ColorSpace
 {
     Gray,
@@ -9,6 +12,9 @@ enum class ColorSpace
     Lab,
     // IDEA: What about the other formats (XYZ, YCrCb, Luv, CMYK, ...)
 };
+#define CARTESIAN_CALL_TYPE_ColorSpace  ColorSpace::Gray, ColorSpace::RGB, ColorSpace::HSV, ColorSpace::HSL, ColorSpace::Lab
+CARTESIAN_CALL_CHECK_VALUE_LIST_COMPLETNESS( ColorSpace )
+
 
 enum class ColorDepth
 {
@@ -16,6 +22,8 @@ enum class ColorDepth
     Int16,
     // IDEA: Int32, Real32, Real64
 };
+#define CARTESIAN_CALL_TYPE_ColorDepth  ColorDepth::Int8, ColorDepth::Int16
+CARTESIAN_CALL_CHECK_VALUE_LIST_COMPLETNESS( ColorDepth )
 
 
 int toCvDepth( ColorDepth depth );
