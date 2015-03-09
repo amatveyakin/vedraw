@@ -3,7 +3,6 @@
 
 #include "basic/image.h"
 #include "modifiers/modifier.h"
-#include "utils/cpp_extensions.h"
 
 
 Drawing::Drawing()

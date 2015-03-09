@@ -2,7 +2,6 @@
 #include "commit_history.h"
 
 #include "modifiers/modifier.h"
-#include "utils/cpp_extensions.h"
 
 
 CommitHistory::CommitHistory()

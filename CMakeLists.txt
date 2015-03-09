@@ -40,7 +40,7 @@ qt5_use_modules( vedraw Widgets )
 
 target_link_libraries( vedraw ${OpenCV_LIBS} )
 
-add_definitions("-std=c++11")
+add_definitions("-std=c++14")
 
 set( CMAKE_CXX_FLAGS "-Wall -Wextra -Wcast-align -Wunused -Wformat=2 -Wcast-qual -Wold-style-cast -Woverloaded-virtual -Wshadow -Wnon-virtual-dtor -Werror" )
 set( CMAKE_CXX_FLAGS_DEBUG "-g" )

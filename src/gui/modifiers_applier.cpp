@@ -4,7 +4,6 @@
 #include "colors/simple_color_transforms.h"
 #include "drawing/drawing.h"
 #include "modifiers/filters/color_map_filter.h"
-#include "utils/cpp_extensions.h"
 
 
 ModifiersApplier::ModifiersApplier( Drawing* drawing )

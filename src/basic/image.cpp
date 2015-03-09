@@ -5,7 +5,6 @@
 #include "image.h"
 
 #include "basic/defs.h"
-#include "utils/cpp_extensions.h"
 #include "utils/debug_utils.h"
 #include "utils/opencv_type_traits.h"
 

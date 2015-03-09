@@ -15,7 +15,6 @@
 
 #include "app/app_info.h"
 #include "drawing/drawing.h"
-#include "utils/cpp_extensions.h"
 #include "utils/qt_extensions.h"
 
 
