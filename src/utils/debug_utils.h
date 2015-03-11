@@ -1,3 +1,11 @@
+// TODO: Fix indentation
+// TODO: Rename: "ASSERT" -> "FAIL"/"FATAL"/"CRASH"/"TERMINATE"/...; "ASSERT_..." -> "CHECK_..."; "ERROR" -> ""
+// TODO: Add log strings: i.e. {CHECK,/*empty means unconditionally*/}_{LOG,THROW,FAIL,/*empty means just pause*/}(...) << "log_message"   (Will "_STD" still be necessary?)
+// TODO: When should debugger be paused?
+//         - on log with high level (and depending on a flag (?))
+//         - on throw (depending on a flag (?))
+//         - on fail (always)
+
 #pragma once
 
 #include <exception>
@@ -49,6 +57,7 @@ private:
     std::string m_what;
 };
 
+// TODO: Add text to standard errors
 #define ASSERT_THROW( expression, exception )       \
 do {                                                \
   if ( !( expression ) ) {                          \
