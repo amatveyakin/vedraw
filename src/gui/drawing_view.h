@@ -11,7 +11,7 @@ public:
     DrawingView( const Drawing* drawing );
 
 protected:
-    virtual void paintEvent( QPaintEvent* ev ) override;
+    void paintEvent( QPaintEvent* ev ) override;
 
 private:
     const Drawing *m_drawing;

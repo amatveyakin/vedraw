@@ -6,6 +6,6 @@
 class Filter : public Modifier
 {
 public:
-    virtual bool affectsColors() const override = 0;
-    virtual bool affectsGeometry() const override final     { return false; }
+    bool affectsColors() const override = 0;
+    bool affectsGeometry() const override final     { return false; }
 };

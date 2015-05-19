@@ -9,10 +9,10 @@ class ProjectiveTransform : public GeometricTransform
 {
 public:
     ProjectiveTransform( const QTransform& forwadTransform );
-    virtual ~ProjectiveTransform();
+    ~ProjectiveTransform() override;
 
-    virtual QPointF mapForward( QPointF coordinates ) const override;
-    virtual QPointF mapBackward( QPointF coordinates ) const override;
+    QPointF mapForward( QPointF coordinates ) const override;
+    QPointF mapBackward( QPointF coordinates ) const override;
 
     static ProjectiveTransform translation( QPointF shift );
 //     static ProjectiveTransform horizontalFlip();

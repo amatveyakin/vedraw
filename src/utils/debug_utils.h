@@ -53,7 +53,7 @@ do {                                                \
 struct standard_exception : std::exception
 {
     standard_exception( const char* file, int line );
-    virtual const char* what() const noexcept override;
+    const char* what() const noexcept override;
 private:
     std::string m_what;
 };

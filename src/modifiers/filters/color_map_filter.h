@@ -12,9 +12,9 @@ public:
     ColorMapFilter( const ThisTransformT& transform );
     ~ColorMapFilter();
 
-    virtual bool affectsColors() const override         { return true; }
+    bool affectsColors() const override         { return true; }
 
-    virtual bool apply( Image& image ) const override;
+    bool apply( Image& image ) const override;
 
     QString name( bool translate ) const override;
     ColorTransform< ThisTransformT > transform() const  { return m_transform; }

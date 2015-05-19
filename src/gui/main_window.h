@@ -18,7 +18,7 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow();
-    virtual ~MainWindow();
+    ~MainWindow() override;
 
 private:
     std::unique_ptr< Drawing > m_drawing;
