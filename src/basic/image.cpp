@@ -52,6 +52,19 @@ Image::Image( int width_, int height_, ColorSpace space, bool alpha, ColorDepth 
 Image::Image( const QString& filename )
 {
     m_mat = std::make_unique< cv::Mat >( cv::imread( filename.toStdString(), CV_LOAD_IMAGE_UNCHANGED ) );
+    if ( !m_mat )
+        ERROR_THROW_STD();  // TODO: cannot open
+    switch ( m_mat->channels() ) {
+        case 1:
+            m_colorSpace = ColorSpace::Gray;
+            break;
+        case 3:
+            m_colorSpace = ColorSpace::RGB;
+            break;
+        default:
+            ERROR_THROW_STD();
+    }
+    // TODO: m_hasAlpha ?
 }
 
 Image::~Image()

@@ -1,3 +1,7 @@
+// TODO: RGB or Rgb?  RGBA, RgbA or Rgba?
+// TODO: enum for colorful (?)
+// TODO: enum for has_alpha (?)
+
 #pragma once
 
 #include "basic/defs.h"
@@ -33,6 +37,14 @@ template<> struct DepthTraits< ColorDepth::Int16 > : public _private::CommonIntD
 typedef DepthTraits< ColorDepth::Int8 >  DepthTraits_Int8;
 typedef DepthTraits< ColorDepth::Int16 > DepthTraits_Int16;
 
+//TODO:
+// template< ColorDepth depthFrom, ColorDepth depthTo >
+// typename DepthTraits< depthTo >::Type convertDepth( typename DepthTraits< depthTo >::Type v );
+// template<> typename DepthTraits< ColorDepth::Int8 >::Type  convertDepth( typename DepthTraits< ColorDepth::Int8 >::Type v )     { return v; }
+// template<> typename DepthTraits< ColorDepth::Int8 >::Type  convertDepth( typename DepthTraits< ColorDepth::Int16 >::Type v )    { return v / 0x101; }  // TODO: optimize and (?) make more precise
+// template<> typename DepthTraits< ColorDepth::Int16 >::Type convertDepth( typename DepthTraits< ColorDepth::Int8 >::Type v )     { return v * 0x101; }
+// template<> typename DepthTraits< ColorDepth::Int16 >::Type convertDepth( typename DepthTraits< ColorDepth::Int16 >::Type v )    { return v; }
+
 
 //==============================================================================================================================================================
 // Colors
@@ -40,14 +52,16 @@ typedef DepthTraits< ColorDepth::Int16 > DepthTraits_Int16;
 template< ColorDepth depth >
 class ColorGray
 {
-    typedef typename DepthTraits< depth >::Type     ComponentType;
-    typedef ComponentType                           WholeType;
-
 public:
-    ColorGray( ComponentType v_ ) : data( v_ ) {}
+    enum { nComponents = 1 };
+    typedef typename DepthTraits< depth >::Type                 ComponentType;
+    typedef typename cv::Vec< ComponentType, nComponents >      WholeType;
 
-    ComponentType v() const                     { return data; }
-    ComponentType& v()                          { return data; }
+    explicit ColorGray( WholeType cvVec_ ) : data( cvVec_ ) {}
+    explicit ColorGray( ComponentType v_ ) : data( v_ ) {}
+
+    ComponentType v() const                     { return data[0]; }
+    ComponentType& v()                          { return data[0]; }
 
     const WholeType& cvVec() const              { return data; }
     WholeType& cvVec()                          { return data; }
@@ -72,11 +86,12 @@ typedef ColorGrayA< ColorDepth::Int16 > ColorGrayA_Int16;
 template< ColorDepth depth >
 class ColorRGB
 {
-    typedef typename DepthTraits< depth >::Type     ComponentType;
-    typedef typename cv::Vec< ComponentType, 3 >    WholeType;
-
 public:
-    ColorRGB( WholeType cvVec_ ) : data( cvVec_ ) {}
+    enum { nComponents = 3 };
+    typedef typename DepthTraits< depth >::Type                 ComponentType;
+    typedef typename cv::Vec< ComponentType, nComponents >      WholeType;
+
+    explicit ColorRGB( WholeType cvVec_ ) : data( cvVec_ ) {}
     ColorRGB( ComponentType r_, ComponentType g_, ComponentType b_ ) { data[0] = r_; data[1] = g_; data[2] = b_; }
     static ColorRGB fromGray( ComponentType v_ ) { return ColorRGB( v_, v_, v_ ); }
     static ColorRGB fromGray( ColorGray< depth > gray ) { return fromGray( gray.v() ); }
@@ -102,20 +117,32 @@ typedef ColorRGB< ColorDepth::Int16 > ColorRGB_Int16;
 template< ColorDepth depth >
 class ColorRGBA
 {
+    // TODO
 };
 
 typedef ColorRGBA< ColorDepth::Int8  > ColorRGBA_Int8;
 typedef ColorRGBA< ColorDepth::Int16 > ColorRGBA_Int16;
 
 
+namespace _private
+{
+    template< bool isColorful, bool hasAlpha, ColorDepth depth >
+    class ColorHelper {};
+    template< ColorDepth depth >  class ColorHelper< false, false, depth >  { public: using Type = ColorGray< depth >; };
+    template< ColorDepth depth >  class ColorHelper< false, true, depth >   { public: using Type = ColorGrayA< depth >; };
+    template< ColorDepth depth >  class ColorHelper< true, false, depth >   { public: using Type = ColorRGB< depth >; };
+    template< ColorDepth depth >  class ColorHelper< true, true, depth >    { public: using Type = ColorRGBA< depth >; };
+};
+
+template< bool isColorful, bool hasAlpha, ColorDepth depth >
+using Color = typename _private::ColorHelper< isColorful, hasAlpha, depth >::Type;
+
+
 //==============================================================================================================================================================
 // Helper funcitons
 
-// TODO
-// template< bool isColorful, bool hasAlpha, ColorDepth depth >
-// makeColor
 template< bool isColorful, bool hasAlpha, ColorDepth depth >
-ColorRGB< depth > makeColor( cv::Vec< typename DepthTraits< depth >::Type, 3 > cvVec )
+Color< isColorful, hasAlpha, depth > makeColor( typename Color< isColorful, hasAlpha, depth >::WholeType cvVec )
 {
-    return ColorRGB< depth >( cvVec );
+    return Color< isColorful, hasAlpha, depth >( cvVec );
 }

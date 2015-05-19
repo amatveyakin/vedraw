@@ -44,6 +44,6 @@ public:
 
 private:
     std::unique_ptr< cv::Mat > m_mat;
-    ColorSpace m_colorSpace = ColorSpace::Gray;
+    ColorSpace m_colorSpace = ColorSpace::Gray;   // TODO: Do we want to store something other than Gray and RGB?
     bool m_hasAlpha = false;
 };

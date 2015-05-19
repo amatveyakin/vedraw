@@ -18,9 +18,9 @@ public:
     constexpr static bool supportsColorful()        { return thisTransform()->supportsColorfulImpl; }
     constexpr static bool supportsGray()            { return thisTransform()->supportsGrayImpl; }
 
-//     template< ColorDepth depth > ColorGray< depth > mapForward( ColorGray< depth >  color ) const   { return thisTransform()->mapForwardImpl( color ); }  // TODO
+    template< ColorDepth depth > ColorGray< depth > mapForward( ColorGray< depth >  color ) const   { return thisTransform()->mapForwardImpl( color ); }
     template< ColorDepth depth > ColorRGB< depth >  mapForward( ColorRGB< depth >   color ) const   { return thisTransform()->mapForwardImpl( color ); }
-//     template< ColorDepth depth > ColorGray< depth > mapBackward( ColorGray< depth > color ) const   { return thisTransform()->mapBackwardImpl( color ); }
+    template< ColorDepth depth > ColorGray< depth > mapBackward( ColorGray< depth > color ) const   { return thisTransform()->mapBackwardImpl( color ); }
     template< ColorDepth depth > ColorRGB< depth >  mapBackward( ColorRGB< depth >  color ) const   { return thisTransform()->mapBackwardImpl( color ); }
 
     QString name() const                            { return thisTransform()->nameImpl(); }

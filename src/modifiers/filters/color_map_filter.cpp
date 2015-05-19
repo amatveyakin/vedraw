@@ -63,7 +63,8 @@ bool ColorMapFilter< ThisTransformT >::apply( Image& image ) const
     return CARTESIAN_CALL( colorMapImplementation,
                            ( ThisTransformT ),
                            ( bool )( image.isColorful() ),
-                           ( bool )( image.hasAlpha() ),
+//                            ( bool )( image.hasAlpha() ),   // TODO
+                           ( false ),
                            ( ColorDepth )( image.colorDepth() )
                          )( transform(),
                             image.cvMat());

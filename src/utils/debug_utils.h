@@ -1,3 +1,4 @@
+// TODO: rename this file
 // TODO: Fix indentation
 // TODO: Rename: "ASSERT" -> "FAIL"/"FATAL"/"CRASH"/"TERMINATE"/...; "ASSERT_..." -> "CHECK_..."; "ERROR" -> ""
 // TODO: Add log strings: i.e. {CHECK,/*empty means unconditionally*/}_{LOG,THROW,FAIL,/*empty means just pause*/}(...) << "log_message"   (Will "_STD" still be necessary?)
