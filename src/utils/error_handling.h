@@ -96,6 +96,7 @@ private:
 
 // Try/catch replacement. Converts all exceptions to instances of Exception type.
 // Always has one catch clause, because Exception is not supposed to be derived from.
+// Use these macros everywhere instead of normal try/catch.
 #define TRY                                                 \
     try {                                                   \
         try

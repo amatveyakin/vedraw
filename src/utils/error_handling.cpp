@@ -1,5 +1,3 @@
-#include <string>
-
 #include "error_handling.h"
 
 

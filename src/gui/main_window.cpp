@@ -12,18 +12,12 @@
 #include "drawing_view.h"
 #include "main_window.h"
 #include "modifiers_applier.h"
+#include "utils/gui_error_handling.h"
 
 #include "app/app_info.h"
 #include "drawing/drawing.h"
-#include "utils/error_handling.h"
 #include "utils/qt_extensions.h"
 
-
-// TODO: move it to some utility file
-#define CATCH_SHOW_ERROR \
-    CATCH { \
-        QMessageBox::warning( this, makeWindowTitle( tr( "Error" ) ), e.errorStory() );  /* TODO: Create a custom ``Show error'' dialog */ \
-    }
 
 MainWindow::MainWindow()
 {
