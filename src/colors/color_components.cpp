@@ -49,14 +49,14 @@ ColorComponentsPrivate::ColorComponentsPrivate()
     addComponent( C::Value      , { Q::Hsv         } , "v", "value"      );
     addComponent( C::Lightness  , { Q::Hsl         } , "l", "lightness"  );
 
-    ASSERT( nextComponentToAdd == ColorComponent::ComponentCount );
+    CHECK( nextComponentToAdd == ColorComponent::ComponentCount );
 }
 
 void ColorComponentsPrivate::addComponent( ColorComponent component, const QList< QColor::Spec >& specs, const QString& shortName, const QString& fullName )
 {
-    ASSERT( component == nextComponentToAdd );
-    ASSERT( !nameToComponent.contains( fullName ) );
-    ASSERT( !nameToComponent.contains( shortName ) );
+    CHECK( component == nextComponentToAdd );
+    CHECK( !nameToComponent.contains( fullName ) );
+    CHECK( !nameToComponent.contains( shortName ) );
 
     components.append({ fullName, shortName });
     for ( auto s : specs )
@@ -111,7 +111,7 @@ qreal colorComponentF( ColorComponent component, QColor color )
         case ColorComponent::Lightness:     return color.lightnessF();
         case ColorComponent::Invalid:       break;
     }
-    ERROR_RETURN_X( 0 );
+    ERROR;
 }
 
 qreal colorComponentF( const QString& componentName, QColor color )
@@ -122,7 +122,7 @@ qreal colorComponentF( const QString& componentName, QColor color )
 
 QColor colorByComponentsF( QColor::Spec spec, const QList< qreal >& components )
 {
-    ASSERT_RETURN_X( components.size() == colorComponentCount( spec ), QColor() );
+    CHECK( components.size() == colorComponentCount( spec ) );
     switch ( spec ) {
         case QColor::Rgb:   return QColor::fromRgbF ( components[ 0 ], components[ 1 ], components[ 2 ] );
         case QColor::Cmyk:  return QColor::fromCmykF( components[ 0 ], components[ 1 ], components[ 2 ], components[ 3 ] );
@@ -130,5 +130,5 @@ QColor colorByComponentsF( QColor::Spec spec, const QList< qreal >& components )
         case QColor::Hsl:   return QColor::fromHslF ( components[ 0 ], components[ 1 ], components[ 2 ] );
         case QColor::Invalid: break;
     }
-    ERROR_RETURN_X( QColor() );
+    ERROR;
 }

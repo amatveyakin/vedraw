@@ -15,8 +15,8 @@ template< typename ThisTransformT, bool isColorful, bool hasAlpha, ColorDepth de
 static bool colorMapImplementation( ColorTransform< ThisTransformT > transform, cv::Mat& mat )
 {
     constexpr int nChannels = colorSpaceChannels( isColorful ? ColorSpace::RGB : ColorSpace::Gray, hasAlpha );
-    ASSERT_THROW_STD( mat.depth() == toCvDepth( depth ) );
-    ASSERT_THROW_STD( mat.channels() == nChannels );
+    CHECK( mat.depth() == toCvDepth( depth ) );
+    CHECK( mat.channels() == nChannels );
 
     // TODO: Delete
 //     switch(channels)

@@ -15,8 +15,15 @@
 
 #include "app/app_info.h"
 #include "drawing/drawing.h"
+#include "utils/debug_utils.h"
 #include "utils/qt_extensions.h"
 
+
+// TODO: move it to some utility file
+#define CATCH_SHOW_ERROR \
+    CATCH { \
+        QMessageBox::warning( this, makeWindowTitle( tr( "Error" ) ), e.errorStory() );  /* TODO: Create a custom ``Show error'' dialog */ \
+    }
 
 MainWindow::MainWindow()
 {
@@ -118,17 +125,14 @@ void MainWindow::onDrawingChanged()
 }
 
 void MainWindow::openFile()
-{
+TRY {
     QString fileName = QFileDialog::getOpenFileName( this, applicationName(), QString(), buildImageFormatsFilter( false ) );
     if ( fileName.isEmpty() )
         return;
     auto newDrawing = std::make_unique< Drawing >( Drawing::CreateNewFromFileCtor(), fileName );
-    if ( !newDrawing->isValid() ) {
-        QMessageBox::warning( this, makeWindowTitle( tr( "Error" ) ), args( tr( "Cannot open file \"%1\"" ), fileName ) );
-        return;
-    }
     setDrawing( std::move( newDrawing ) );
 }
+CATCH_SHOW_ERROR
 
 void MainWindow::showAbout ()
 {

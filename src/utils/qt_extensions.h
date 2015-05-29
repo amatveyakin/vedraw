@@ -21,13 +21,20 @@ QString toQString( const T& v )
     return out;
 }
 
+template<>
+inline QString toQString( const std::string& v )
+{
+    return QString::fromStdString( v );
+}
+
+
 template< typename... Values >
 QString args( const QString& format, Values&&... values )
 {
     return format.arg( toQString( std::forward< Values >( values ) )... );
 }
 
-// TODO: rename
+// TODO: Transform to qMakeStatus macro (macro is necessary to save file and line number)
 template< typename Exception, typename... Values >
 Exception qMakeException( const QString& format, Values&&... values )
 {

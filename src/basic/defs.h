@@ -1,3 +1,5 @@
+// TODO: Unify enum value names with constants (?) I.e. replace `Foo' with `foo' or `kFoo' or something like that.
+
 #pragma once
 
 #include "utils/cartesian_call.h"

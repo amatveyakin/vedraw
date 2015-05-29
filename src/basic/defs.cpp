@@ -11,7 +11,7 @@ int toCvDepth( ColorDepth depth )
         case ColorDepth::Int8:      return CV_8U;
         case ColorDepth::Int16:     return CV_16U;
     }
-    ERROR_THROW_STD();
+    ERROR;
 }
 
 ColorDepth formCvDepth( int depth )
@@ -20,7 +20,7 @@ ColorDepth formCvDepth( int depth )
         case CV_8U:                 return ColorDepth::Int8;
         case CV_16U:                return ColorDepth::Int16;
     }
-    ERROR_THROW_STD();
+    ERROR;
 }
 
 
