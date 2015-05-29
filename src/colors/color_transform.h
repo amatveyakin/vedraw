@@ -6,7 +6,7 @@
 
 #include "color.h"
 
-#include "utils/debug_utils.h"
+#include "utils/error_handling.h"
 #include "utils/qt_extensions.h"
 
 

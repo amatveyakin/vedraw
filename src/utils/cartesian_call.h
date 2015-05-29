@@ -69,7 +69,7 @@
 // TODO: Add boost headers to CMake dependencies
 #include <boost/preprocessor.hpp>
 
-#include "debug_utils.h"
+#include "error_handling.h"
 
 
 // BEGIN: implementation details

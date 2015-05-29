@@ -5,7 +5,7 @@
 #include "image.h"
 
 #include "basic/defs.h"
-#include "utils/debug_utils.h"
+#include "utils/error_handling.h"
 #include "utils/opencv_type_traits.h"
 
 

@@ -3,7 +3,7 @@
 
 #include "color_components.h"
 
-#include "utils/debug_utils.h"
+#include "utils/error_handling.h"
 
 
 class ColorComponentsPrivate

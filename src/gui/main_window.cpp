@@ -15,7 +15,7 @@
 
 #include "app/app_info.h"
 #include "drawing/drawing.h"
-#include "utils/debug_utils.h"
+#include "utils/error_handling.h"
 #include "utils/qt_extensions.h"
 
 

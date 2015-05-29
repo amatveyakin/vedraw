@@ -6,7 +6,7 @@
 #include "colors/color_transform.h"
 #include "colors/simple_color_transforms.h"
 #include "utils/cartesian_call.h"
-#include "utils/debug_utils.h"
+#include "utils/error_handling.h"
 #include "utils/opencv_type_traits.h"
 #include "utils/qt_extensions.h"
 

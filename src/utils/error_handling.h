@@ -1,4 +1,3 @@
-// TODO: rename this file
 // TODO: Add logging
 // TODO: Create some predefined exceptions, to handle RAM exhaustion.
 // TODO: QString vs std::string vs char*

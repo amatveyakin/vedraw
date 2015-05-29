@@ -4,7 +4,7 @@
 #include "commit_history_widget.h"
 #include "drawing/commit.h"
 #include "drawing/commit_history.h"
-#include "utils/debug_utils.h"
+#include "utils/error_handling.h"
 
 
 CommitHistoryWidget::CommitHistoryWidget()

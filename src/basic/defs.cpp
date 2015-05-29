@@ -2,7 +2,7 @@
 
 #include "defs.h"
 
-#include "utils/debug_utils.h"
+#include "utils/error_handling.h"
 
 
 int toCvDepth( ColorDepth depth )
