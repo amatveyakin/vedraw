@@ -18,28 +18,6 @@ static bool colorMapImplementation( ColorTransform< ThisTransformT > transform, 
     CHECK( mat.depth() == toCvDepth( depth ) );
     CHECK( mat.channels() == nChannels );
 
-    // TODO: Delete
-//     switch(channels)
-//     {
-//     case 1:
-//         {
-//             MatIterator_<uchar> it, end;
-//             for( it = I.begin<uchar>(), end = I.end<uchar>(); it != end; ++it)
-//                 *it = table[*it];
-//             break;
-//         }
-//     case 3:
-//         {
-//             MatIterator_<Vec3b> it, end;
-//             for( it = I.begin<Vec3b>(), end = I.end<Vec3b>(); it != end; ++it)
-//             {
-//                 (*it)[0] = table[(*it)[0]];
-//                 (*it)[1] = table[(*it)[1]];
-//                 (*it)[2] = table[(*it)[2]];
-//             }
-//         }
-//     }
-
     typedef typename OpenCvVector< nChannels, depth >::Type ScalarT;
     for( auto it = mat.begin< ScalarT >(); it != mat.end< ScalarT >(); ++it)
         *it = transform.mapForward( makeColor< isColorful, hasAlpha, depth >( *it ) ).cvVec();
