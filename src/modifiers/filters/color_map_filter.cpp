@@ -18,6 +18,7 @@ static bool colorMapImplementation( ColorTransform< ThisTransformT > transform, 
     CHECK( mat.depth() == toCvDepth( depth ) );
     CHECK( mat.channels() == nChannels );
 
+    // TODO: Can we use OpenCV's parallel for here?
     typedef typename OpenCvVector< nChannels, depth >::Type ScalarT;
     for( auto it = mat.begin< ScalarT >(); it != mat.end< ScalarT >(); ++it)
         *it = transform.mapForward( makeColor< isColorful, hasAlpha, depth >( *it ) ).cvVec();
@@ -45,7 +46,7 @@ bool ColorMapFilter< ThisTransformT >::apply( Image& image ) const
                            ( false ),
                            ( ColorDepth )( image.colorDepth() )
                          )( transform(),
-                            image.cvMat());
+                            image.cvMat() );
 }
 
 template< typename ThisTransformT >

@@ -60,8 +60,8 @@ public:
     explicit ColorGray( WholeType cvVec_ ) : data( cvVec_ ) {}
     explicit ColorGray( ComponentType v_ ) : data( v_ ) {}
 
-    ComponentType v() const                     { return data[0]; }
-    ComponentType& v()                          { return data[0]; }
+    ComponentType v() const                     { return data[ 0 ]; }
+    ComponentType& v()                          { return data[ 0 ]; }
 
     const WholeType& cvVec() const              { return data; }
     WholeType& cvVec()                          { return data; }
@@ -77,6 +77,25 @@ typedef ColorGray< ColorDepth::Int16 > ColorGray_Int16;
 template< ColorDepth depth >
 class ColorGrayA
 {
+public:
+    enum { nComponents = 2 };
+    typedef typename DepthTraits< depth >::Type                 ComponentType;
+    typedef typename cv::Vec< ComponentType, nComponents >      WholeType;
+
+    explicit ColorGrayA( WholeType cvVec_ ) : data( cvVec_ ) {}
+    explicit ColorGrayA( ColorGrayA gray_, ComponentType a_ ) : data( gray_.v(), a_ ) {}
+    explicit ColorGrayA( ComponentType v_, ComponentType a_ ) : data( v_, a_ ) {}
+
+    ComponentType v() const                     { return data[ 0 ]; }
+    ComponentType& v()                          { return data[ 0 ]; }
+    ComponentType a() const                     { return data[ 1 ]; }
+    ComponentType& a()                          { return data[ 1 ]; }
+
+    const WholeType& cvVec() const              { return data; }
+    WholeType& cvVec()                          { return data; }
+
+private:
+    WholeType data;
 };
 
 typedef ColorGrayA< ColorDepth::Int8  > ColorGrayA_Int8;
@@ -92,16 +111,16 @@ public:
     typedef typename cv::Vec< ComponentType, nComponents >      WholeType;
 
     explicit ColorRGB( WholeType cvVec_ ) : data( cvVec_ ) {}
-    ColorRGB( ComponentType r_, ComponentType g_, ComponentType b_ ) { data[0] = r_; data[1] = g_; data[2] = b_; }
+    ColorRGB( ComponentType r_, ComponentType g_, ComponentType b_ ) : data( r_, g_, b_ ) {}
     static ColorRGB fromGray( ComponentType v_ ) { return ColorRGB( v_, v_, v_ ); }
     static ColorRGB fromGray( ColorGray< depth > gray ) { return fromGray( gray.v() ); }
 
-    ComponentType r() const                     { return data[0]; }
-    ComponentType& r()                          { return data[0]; }
-    ComponentType g() const                     { return data[1]; }
-    ComponentType& g()                          { return data[1]; }
-    ComponentType b() const                     { return data[2]; }
-    ComponentType& b()                          { return data[2]; }
+    ComponentType r() const                     { return data[ 0 ]; }
+    ComponentType& r()                          { return data[ 0 ]; }
+    ComponentType g() const                     { return data[ 1 ]; }
+    ComponentType& g()                          { return data[ 1 ]; }
+    ComponentType b() const                     { return data[ 2 ]; }
+    ComponentType& b()                          { return data[ 2 ]; }
 
     const WholeType& cvVec() const              { return data; }
     WholeType& cvVec()                          { return data; }
@@ -117,7 +136,30 @@ typedef ColorRGB< ColorDepth::Int16 > ColorRGB_Int16;
 template< ColorDepth depth >
 class ColorRGBA
 {
-    // TODO
+public:
+    enum { nComponents = 4 };
+    typedef typename DepthTraits< depth >::Type                 ComponentType;
+    typedef typename cv::Vec< ComponentType, nComponents >      WholeType;
+
+    explicit ColorRGBA( WholeType cvVec_ ) : data( cvVec_ ) {}
+    ColorRGBA( ColorRGBA rgb_, ComponentType a_ ) : data( rgb_.r(), rgb_.g(), rgb_.b(), a_ ) {}
+    ColorRGBA( ComponentType r_, ComponentType g_, ComponentType b_, ComponentType a_ ) : data( r_, g_, b_, a_ ) {}
+    static ColorRGBA fromGray( ColorGrayA< depth > gray ) { return fromGray( gray.v(), gray().a() ); }
+
+    ComponentType r() const                     { return data[ 0 ]; }
+    ComponentType& r()                          { return data[ 0 ]; }
+    ComponentType g() const                     { return data[ 1 ]; }
+    ComponentType& g()                          { return data[ 1 ]; }
+    ComponentType b() const                     { return data[ 2 ]; }
+    ComponentType& b()                          { return data[ 2 ]; }
+    ComponentType a() const                     { return data[ 3 ]; }
+    ComponentType& a()                          { return data[ 3 ]; }
+
+    const WholeType& cvVec() const              { return data; }
+    WholeType& cvVec()                          { return data; }
+
+private:
+    WholeType data;
 };
 
 typedef ColorRGBA< ColorDepth::Int8  > ColorRGBA_Int8;
