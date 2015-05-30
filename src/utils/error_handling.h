@@ -132,31 +132,10 @@ private:
 #   endif
 #endif // !_MSC_VER
 
-#define CHECK_PAUSE( expression )                           \
-do {                                                        \
-    if ( !( expression ) )                                  \
-        PAUSE();                                            \
-} while ( false )
 
-#define CHECK_OK_PAUSE( status )                            \
-    CHECK_PAUSE( ( status ).ok() )
-
-
-#define CHECK_THROW( expression )                           \
-do {                                                        \
-    if ( !( expression ) )                                  \
-        throw EXCEPTION( Unknown ) << "Assertion failed: " << #expression; \
-} while ( false )
-
-#define CHECK_OK_THROW( status )                            \
-do {                                                        \
-    if ( !( status ).ok() )                                 \
-        throw EXCEPTION( status );                          \
-} while ( false )
-
-
-// The is no ERROR_THROW macro, because ERROR should only be used for unexpected logic errors.
-// Otherwise, be more verbose - use ``throw EXCEPTION...''.
+// Macro for really unexpected internal logic errors.
+// If the error might have happened due to an external reason (missing or broken file, user requested an impossible action, etc.),
+// return a Status or throw an Exception manually.
 #define ERROR()                                             \
 do {                                                        \
     PAUSE();                                                \
@@ -167,7 +146,7 @@ do {                                                        \
 do {                                                        \
     if ( !( expression ) ) {                                \
         PAUSE();                                            \
-        throw EXCEPTION( Unknown ) << "Assertion failed: " << #expression; \
+        throw EXCEPTION( InternalError ) << "Assertion failed: " << #expression; \
     }                                                       \
 } while ( false )
 
@@ -175,6 +154,6 @@ do {                                                        \
 do {                                                        \
     if ( !( status ).ok() ) {                               \
         PAUSE();                                            \
-        throw EXCEPTION( status );                          \
+        throw CHAIN_EXCEPTION( InternalError, status ) << "Assertion failed: status is expected to be OK."; \
     }                                                       \
 } while ( false )
