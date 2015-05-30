@@ -1,7 +1,7 @@
 // TODO: Add logging
 // TODO: Create some predefined exceptions, to handle RAM exhaustion.
 // TODO: QString vs std::string vs char*
-// TODO: Use format strings instead of streams; store both english and translated message
+// TODO: Use format strings instead of streams; store both english and translated message. It will probably require to abandon atream logic and pass format string and all args to macro instead, wrapped to a special help macro MAYBE_TR.
 
 #pragma once
 
@@ -87,12 +87,13 @@ private:
 
 #define STATUS( code ) \
     Status( Status::ErrorCode::code, __FILE__, __LINE__, __func__ )
-// TODO: Use macro magic to define a variadic argument macro:
-// #define STATUS( code, nested_error )
-//    Status( code, __FILE__, __LINE__, __func__, nested_error )
+#define CHAIN_STATUS( code, nested_error ) \
+    Status( code, __FILE__, __LINE__, __func__, nested_error )
 
-#define EXCEPTION( ... ) \
-    Exception( std::make_shared< Status >( STATUS( __VA_ARGS__ ) ) )
+#define EXCEPTION( code ) \
+    Exception( std::make_shared< Status >( STATUS( code ) ) )
+#define CHAIN_EXCEPTION( code, nested_error ) \
+    Exception( std::make_shared< Status >( STATUS( code, nested_error ) ) )
 
 // Try/catch replacement. Converts all exceptions to instances of Exception type.
 // Always has one catch clause, because Exception is not supposed to be derived from.
@@ -131,47 +132,49 @@ private:
 #   endif
 #endif // !_MSC_VER
 
-#define CHECK_PAUSE( expression )                   \
-do {                                                \
-    if ( !( expression ) )                          \
-        PAUSE();                                    \
+#define CHECK_PAUSE( expression )                           \
+do {                                                        \
+    if ( !( expression ) )                                  \
+        PAUSE();                                            \
 } while ( false )
 
-#define CHECK_OK_PAUSE( status )                    \
+#define CHECK_OK_PAUSE( status )                            \
     CHECK_PAUSE( ( status ).ok() )
 
 
-#define CHECK_THROW( expression )                   \
-do {                                                \
-    if ( !( expression ) )                          \
-        throw EXCEPTION( Unknown ) << #expression;  \
+#define CHECK_THROW( expression )                           \
+do {                                                        \
+    if ( !( expression ) )                                  \
+        throw EXCEPTION( Unknown ) << "Assertion failed: " << #expression; \
 } while ( false )
 
-#define CHECK_OK_THROW( status )                    \
-do {                                                \
-    if ( !( status ).ok() )                         \
-        throw EXCEPTION( status );                  \
+#define CHECK_OK_THROW( status )                            \
+do {                                                        \
+    if ( !( status ).ok() )                                 \
+        throw EXCEPTION( status );                          \
 } while ( false )
 
 
-#define ERROR                                       \
-do {                                                \
-    PAUSE();                                        \
-    throw EXCEPTION( Unknown );                     \
+// The is no ERROR_THROW macro, because ERROR should only be used for unexpected logic errors.
+// Otherwise, be more verbose - use ``throw EXCEPTION...''.
+#define ERROR()                                             \
+do {                                                        \
+    PAUSE();                                                \
+    throw EXCEPTION( InternalError );                       \
 } while ( false )
 
-#define CHECK( expression )                         \
-do {                                                \
-    if ( !( expression ) ) {                        \
-        PAUSE();                                    \
-        throw EXCEPTION( Unknown ) << #expression;  \
-    }                                               \
+#define CHECK( expression )                                 \
+do {                                                        \
+    if ( !( expression ) ) {                                \
+        PAUSE();                                            \
+        throw EXCEPTION( Unknown ) << "Assertion failed: " << #expression; \
+    }                                                       \
 } while ( false )
 
-#define CHECK_OK( status )                          \
-do {                                                \
-    if ( !( status ).ok() ) {                       \
-        PAUSE();                                    \
-        throw EXCEPTION( status );                  \
-    }                                               \
+#define CHECK_OK( status )                                  \
+do {                                                        \
+    if ( !( status ).ok() ) {                               \
+        PAUSE();                                            \
+        throw EXCEPTION( status );                          \
+    }                                                       \
 } while ( false )

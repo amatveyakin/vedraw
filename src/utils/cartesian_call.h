@@ -136,7 +136,7 @@
     [ & ](){ \
         BOOST_PP_SEQ_FOR_EACH_PRODUCT( CARTESIAN_IMPL_CHECKED_CALL, \
                                        BOOST_PP_SEQ_PUSH_FRONT( CARTESIAN_IMPL_ARGS_TO_VALUE_PAIR_SEQ_SEQ( __VA_ARGS__ ), ( func ) ) ) \
-        ERROR; \
+        ERROR(); \
     }()
 
 

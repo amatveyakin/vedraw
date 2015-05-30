@@ -111,7 +111,7 @@ qreal colorComponentF( ColorComponent component, QColor color )
         case ColorComponent::Lightness:     return color.lightnessF();
         case ColorComponent::Invalid:       break;
     }
-    ERROR;
+    ERROR();
 }
 
 qreal colorComponentF( const QString& componentName, QColor color )
@@ -130,5 +130,5 @@ QColor colorByComponentsF( QColor::Spec spec, const QList< qreal >& components )
         case QColor::Hsl:   return QColor::fromHslF ( components[ 0 ], components[ 1 ], components[ 2 ] );
         case QColor::Invalid: break;
     }
-    ERROR;
+    ERROR();
 }

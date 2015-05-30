@@ -63,7 +63,7 @@ Image::Image( const QString& filename )
             m_colorSpace = ColorSpace::RGB;
             break;
         default:
-            ERROR;
+            ERROR();
     }
     // TODO: m_hasAlpha ?
 }

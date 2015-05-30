@@ -26,9 +26,9 @@ public:
     QString name() const                            { return thisTransform()->nameImpl(); }
 
 protected:
-    void illegalMapBackwardCall() const             { ERROR_THROW( qMakeException< std::logic_error >( "The '%1' color transform cannot map backwards", name() ) ); }
-    void illegalMapColorful() const                 { ERROR_THROW( qMakeException< std::logic_error >( "The '%1' color transform supports only gray colos", name() ) ); }
-    void illegalMapGray() const                     { ERROR_THROW( qMakeException< std::logic_error >( "The '%1' color transform doesn't support gray colors", name() ) ); }
+    void illegalMapBackwardCall() const             { throw EXCEPTION( IllegalArgument ) << args( "The '%1' color transform cannot map backwards", name() ); }
+    void illegalMapColorful() const                 { throw EXCEPTION( IllegalArgument ) << args( "The '%1' color transform supports only gray colos", name() ); }
+    void illegalMapGray() const                     { throw EXCEPTION( IllegalArgument ) << args( "The '%1' color transform doesn't support gray colors", name() ); }
 
 private:
     const ThisTransformT* thisTransform() const     { return static_cast< const ThisTransformT* >( this ); }
