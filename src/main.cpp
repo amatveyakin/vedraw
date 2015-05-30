@@ -3,11 +3,21 @@
 
 #include <QApplication>
 
+#include <csignal>
+
 #include "gui/main_window.h"
 
 
+void noopSignalHandler( int sig )
+{
+    signal( sig, noopSignalHandler );
+}
+
 int main( int argc, char* argv[] )
 {
+    // Stop program from crashing after ERROR()
+    signal( SIGTRAP, noopSignalHandler );
+
     QApplication app( argc, argv );
 
     MainWindow mainWindow;

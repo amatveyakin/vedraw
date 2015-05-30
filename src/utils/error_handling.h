@@ -5,6 +5,7 @@
 
 #pragma once
 
+#include <csignal>
 #include <exception>
 #include <memory>
 #include <sstream>
@@ -126,7 +127,7 @@ private:
 #   endif
 #else // !_MSC_VER
 #   if !defined ( QT_NO_DEBUG ) && ( defined ( __i386__ ) || defined ( __x86_64__ ) )
-#       define PAUSE()                  asm ("int $3")                    // TODO: Use gcc build-in command instead
+#       define PAUSE()                  ::raise( SIGTRAP );    // CLEAN-UP: Isn't there a gcc intrinsic?
 #   else
 #       define PAUSE()                  do { } while ( false )
 #   endif
