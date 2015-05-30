@@ -12,6 +12,7 @@ CommitHistoryWidget::CommitHistoryWidget()
     , m_view ( new QListView( this ) )
 {
     m_view->setModel( m_qmodel );
+    m_view->setEditTriggers( QAbstractItemView::NoEditTriggers );
     setWidget( m_view );
 }
 
